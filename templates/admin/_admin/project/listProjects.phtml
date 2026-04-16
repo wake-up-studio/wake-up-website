@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste Projets</title>
+</head>
+<body>
+    <h1>Projets</h1>
+    <button><a href="?route=createProject">Créer un projet</a></button>
+    <ul>
+        <?php foreach($data as $item){ ?>
+            <li>
+                <p><?= $item -> getTitle() ?></p>
+                <button><a href="?route=showProject&project_id=<?= $item -> getId() ?>">Plus d'infos</a></button>
+                <button><a href="?route=updateProject&project_id=<?= $item -> getId() ?>">Modifier</a></button>
+                <button><a href="?route=deleteProject&project_id=<?= $item -> getId() ?>">Supprimer</a></button>
+            </li>
+        <?php } ?>
+    </ul>
+</body>
+</html>

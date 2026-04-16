@@ -1,0 +1,22 @@
+<?php
+    $item = $data[0];
+    $date = $item -> getCreatedAt();
+?>
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><?= $item -> getEmail() ?></title>
+</head>
+<body>
+    <h1><?= $item -> getEmail() ?></h1>
+    <p><?= $item -> getRole() ?></p>
+    <p><?= $date -> format("Y-m-d H:i:s") ?></p>
+    <button><a href="?route=updateProject&project_id=<?= $item -> getId() ?>">Modifier</a></button>
+    <button><a href="?route=deleteProject&project_id=<?= $item -> getId() ?>">Supprimer</a></button>
+</body>
+</html>

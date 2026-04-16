@@ -1,0 +1,27 @@
+<?php
+    $item = $data[0];
+?>
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Modifier <?= $item -> getTitle() ?></title>
+</head>
+<body>
+    <form method="post" action="?route=checkUpdateProject&project_id=<?= $item -> getId() ?>">
+        <label for="title">Title</label>
+        <input type="text" name="title" value="<?= $item -> getTitle() ?>"/>
+        <label for="content">Content</label>
+        <input type="text" name="content" value="<?= $item -> getContent() ?>"/>
+        <label for="user_id">User Id</label>
+        <input type="text" name="user_id" value="<?= $item -> getUserId() ?>"/>
+        <label for="created_at">Created At</label>
+        <input type="text" name="created_at" value="<?= $item -> getCreatedAt() -> format("Y-m-d H:i:s") ?>"/>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>

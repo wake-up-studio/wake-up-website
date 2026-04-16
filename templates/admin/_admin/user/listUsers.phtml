@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste Utilisateurs</title>
+</head>
+<body>
+    <h1>Utilisateurs</h1>
+    <button><a href="?route=createUser">Créer un utilisateur</a></button>
+    <ul>
+        <?php foreach($data as $item){ ?>
+            <li>
+                <p><?= $item -> getEmail() ?></p>
+                <button><a href="?route=showUser&user_id=<?= $item -> getId() ?>">Plus d'infos</a></button>
+                <button><a href="?route=updateUser&user_id=<?= $item -> getId() ?>">Modifier</a></button>
+                <button><a href="?route=deleteUser&user_id=<?= $item -> getId() ?>">Supprimer</a></button>
+            </li>
+        <?php } ?>
+    </ul>
+</body>
+</html>

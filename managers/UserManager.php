@@ -1,0 +1,80 @@
+<?php
+
+class UserManager extends AbstractManager{
+    public function __construct(){
+        parent::__construct();
+    }
+
+    public function findAll() : array {
+        $query = $this -> db -> prepare("
+                SELECT *
+                FROM users
+            ");
+        $query -> execute();
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC);
+        $users = [];
+        foreach($results as $result){
+            $users[] = new User($result["email"], $result["password"], $result["role"],DateTime::createFromFormat('Y-m-d H:i:s', $result["created_at"]), $result["id"]);
+        }
+        return $users;
+    }
+
+    public function findOne(int $id) : ?User{
+        $query = $this -> db -> prepare("
+            SELECT *
+            FROM users
+            WHERE id = :id
+        ");
+        $parameters = ["id" => $id];
+        $query -> execute($parameters);
+        $result = $query -> fetch(PDO::FETCH_ASSOC);
+        if($result){
+            $user = new User($result["email"], $result["password"], $result["role"],DateTime::createFromFormat('Y-m-d H:i:s', $result["created_at"]), $result["id"]);
+            return $user;
+        }
+        return null;
+    }
+
+    public function delete(int $id){
+        $query = $this -> db -> prepare("
+        DELETE FROM users
+        WHERE id = :id
+        ");
+        $parameters = ["id" => $id];
+        $query -> execute($parameters);
+    }
+
+    public function create(User $user){
+        $query = $this -> db -> prepare("
+        INSERT INTO users
+        (email, password, role, created_at)
+        VALUES (:email, :password, :role, NOW())
+        ");
+        $parameters = ["email" => $user->getEmail(),
+            "password" => $user->getPassword(),
+            "role" => $user->getRole()];
+        $query -> execute($parameters);
+        $id = $this -> db -> lastInsertId();
+        $user->setId($id);
+    }
+
+    public function update(User $user){
+        $query = $this -> db -> prepare("
+        UPDATE users
+        SET email = :email,
+            password = :password,
+            role = :role,
+            created_at = :created_at
+            WHERE id = :id
+            ");
+        $parameters = ["email" => $user->getEmail(),
+            "password" => $user->getPassword(),
+            "role" => $user->getRole(),
+            "created_at" => $user->getCreatedAt() -> format("Y-m-d H:i:s"),
+            "id" => $user->getId()];
+        $query -> execute($parameters);
+    }
+
+}
+
+?>

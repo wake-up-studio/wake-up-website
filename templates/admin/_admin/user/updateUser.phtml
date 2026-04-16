@@ -1,0 +1,30 @@
+<?php
+    $item = $data[0];
+?>
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Modifier utilisateur</title>
+</head>
+<body>
+    <form method="post" action="?route=checkUpdateUser&user_id=<?= $item -> getId() ?>">
+        <label for="email">Email</label>
+        <input type="email" name="email" value="<?= $item -> getEmail() ?>"/>
+        <label for="password">Password</label>
+        <input type="password" name="password" value="<?= $item -> getPassword() ?>"/>
+        <label for="role">Role</label>
+        <select name="role">
+            <option value="client">CLIENT</option>
+            <option value="admin">ADMIN</option>
+        </select>
+        <label for="created_at">Created At</label>
+        <input type="text" name="created_at" value="<?= $item -> getCreatedAt() -> format("Y-m-d H:i:s") ?>"/>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>
