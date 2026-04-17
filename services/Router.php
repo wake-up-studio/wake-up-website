@@ -4,8 +4,10 @@ class Router{
     public function __construct(){
         $this -> uc = new UserController();
         $this -> pc = new ProjectController();
+        $this -> mc = new MediaController();
         $this -> fc = new FormController();
         $this -> sc = new ServiceController();
+        $this -> qc = new QuestionController();
     }
 
     public function handleRequest(array $get) : void{
@@ -56,14 +58,96 @@ class Router{
                 $this -> pc -> checkUpdate($get["project_id"]);
             }
 
+            // ROUTER ADMIN MEDIAS
+            else if($get["route"] == "listMedias"){
+                $this -> mc -> list();
+            }
+            else if($get["route"] == "showMedia" && isset($get["media_id"])){
+                $this -> mc -> show($get["media_id"]);
+            }
+            else if($get["route"] == "createMedia"){
+                $this -> mc -> create();
+            }
+            else if($get["route"] == "checkCreateMedia"){
+                $this -> mc -> checkCreate();
+            }
+            else if($get["route"] == "deleteMedia" && isset($get["media_id"])){
+                $this -> mc -> delete($get["media_id"]);
+            }
+            else if($get["route"] == "updateMedia"){
+                $this -> mc -> update($get["media_id"]);
+            }
+            else if($get["route"] == "checkUpdateMedia" && isset($get["media_id"])){
+                $this -> mc -> checkUpdate($get["media_id"]);
+            }
+
             // ROUTER ADMIN SERVICES
             else if($get["route"] == "listServices"){
                 $this -> sc -> list();
+            }
+            else if($get["route"] == "showService" && isset($get["service_id"])){
+                $this -> sc -> show($get["service_id"]);
+            }
+            else if($get["route"] == "createService"){
+                $this -> sc -> create();
+            }
+            else if($get["route"] == "checkCreateService"){
+                $this -> sc -> checkCreate();
+            }
+            else if($get["route"] == "deleteService" && isset($get["service_id"])){
+                $this -> sc -> delete($get["service_id"]);
+            }
+            else if($get["route"] == "updateService"){
+                $this -> sc -> update($get["service_id"]);
+            }
+            else if($get["route"] == "checkUpdateService" && isset($get["service_id"])){
+                $this -> sc -> checkUpdate($get["service_id"]);
             }
 
             // ROUTER ADMIN FORMS
             else if($get["route"] == "listForms"){
                 $this -> fc -> list();
+            }
+            else if($get["route"] == "showForm" && isset($get["form_id"])){
+                $this -> fc -> show($get["form_id"]);
+            }
+            else if($get["route"] == "createForm"){
+                $this -> fc -> create();
+            }
+            else if($get["route"] == "checkCreateForm"){
+                $this -> fc -> checkCreate();
+            }
+            else if($get["route"] == "deleteForm" && isset($get["form_id"])){
+                $this -> fc -> delete($get["form_id"]);
+            }
+            else if($get["route"] == "updateForm"){
+                $this -> fc -> update($get["form_id"]);
+            }
+            else if($get["route"] == "checkUpdateForm" && isset($get["form_id"])){
+                $this -> fc -> checkUpdate($get["form_id"]);
+            }
+
+            // ROUTER ADMIN QUESTIONS
+            else if($get["route"] == "listQuestions"){
+                $this -> qc -> list();
+            }
+            else if($get["route"] == "showQuestion" && isset($get["question_id"])){
+                $this -> qc -> show($get["question_id"]);
+            }
+            else if($get["route"] == "createQuestion"){
+                $this -> qc -> create();
+            }
+            else if($get["route"] == "checkCreateQuestion"){
+                $this -> qc -> checkCreate();
+            }
+            else if($get["route"] == "deleteQuestion" && isset($get["question_id"])){
+                $this -> qc -> delete($get["question_id"]);
+            }
+            else if($get["route"] == "updateQuestion"){
+                $this -> qc -> update($get["question_id"]);
+            }
+            else if($get["route"] == "checkUpdateQuestion" && isset($get["question_id"])){
+                $this -> qc -> checkUpdate($get["question_id"]);
             }
 
             // ERREUR

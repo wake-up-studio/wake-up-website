@@ -14,13 +14,13 @@ class UserController extends AbstractController
     }
 
     public function show(int $id){
-        $data = [$this -> um -> findOne($id)];
+        $data = ["user" => $this -> um -> findOne($id)];
         $this -> renderAdmin("user/showUser", $data);
     }
 
     public function update(int $id){
-        $user = [$this -> um -> findone($id)];
-        $this -> renderAdmin("user/updateUser", $user);
+        $user = $this -> um -> findone($id);
+        $this -> renderAdmin("user/updateUser", ["user" => $user]);
     }
 
     public function create(){
@@ -36,10 +36,10 @@ class UserController extends AbstractController
 
     public function checkUpdate(int $id){
         if (isset($_POST["email"],$_POST["role"])){
-            $email = htmlspecialchars($_POST["email"]);
-            $password = htmlspecialchars($_POST["password"]);
-            $role = htmlspecialchars($_POST["role"]);
-            $created_at = htmlspecialchars($_POST["created_at"]);
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+            $role = $_POST["role"];
+            $created_at = $_POST["created_at"];
             $regexEmail = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9._%+-]+\.[A-Za-z]{2,}$/';
 
             if(preg_match($regexEmail, $_POST["email"]) && !empty(trim($password)) && !empty(trim($role))&& !empty(trim($created_at))){
@@ -69,9 +69,9 @@ class UserController extends AbstractController
 
     public function checkCreate(){
         if (isset($_POST["email"], $_POST["password"], $_POST["role"])){
-            $email = htmlspecialchars($_POST["email"]);
-            $password = htmlspecialchars($_POST["password"]);
-            $role = htmlspecialchars($_POST["role"]);
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+            $role = $_POST["role"];
             $regexEmail = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9._%+-]+\.[A-Za-z]{2,}$/';
 
             if(preg_match($regexEmail, $_POST["email"]) && !empty(trim($password)) && !empty(trim($role))){

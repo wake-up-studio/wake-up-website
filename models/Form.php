@@ -2,19 +2,19 @@
 
 class Form
 {
-    public function __construct(private int $user_id, private string $content, private string $created_at = new DateTime(), private ?int $id = null)
+    public function __construct(private string $title, private string $content, private ?int $user_id, private DateTime $created_at = new DateTime(), private ?int $id = null)
     {
 
     }
 
-    public function getUserId(): int
+    public function getTitle(): string
     {
-        return $this->user_id;
+        return $this->title;
     }
 
-    public function setUserId(int $user_id): Form
+    public function setTitle(string $title): Form
     {
-        $this->user_id = $user_id;
+        $this->title = $title;
         return $this;
     }
 
@@ -29,12 +29,23 @@ class Form
         return $this;
     }
 
-    public function getCreatedAt(): string
+    public function getUserId(): ?int
+    {
+        return $this->user_id;
+    }
+
+    public function setUserId(int $user_id): Form
+    {
+        $this->user_id = $user_id;
+        return $this;
+    }
+
+    public function getCreatedAt(): DateTime
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(string $created_at): Form
+    public function setCreatedAt(DateTime $created_at): Form
     {
         $this->created_at = $created_at;
         return $this;

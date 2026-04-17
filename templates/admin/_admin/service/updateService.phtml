@@ -1,5 +1,5 @@
 <?php
-    $item = $data["project"];
+    $item = $data["service"];
 ?>
 
 <!doctype html>
@@ -12,13 +12,11 @@
     <title>Modifier <?= $item -> getTitle() ?></title>
 </head>
 <body>
-    <form method="post" action="?route=checkUpdateProject&project_id=<?= $item -> getId() ?>">
+    <form method="post" action="?route=checkUpdateService&service_id=<?= $item -> getId() ?>">
         <label for="title">Title</label>
         <input type="text" name="title" value="<?= $item -> getTitle() ?>"/>
         <label for="content">Content</label>
         <input type="text" name="content" value="<?= $item -> getContent() ?>"/>
-        <label for="user_id">User Id</label>
-        <input type="number" min="0" step="1" name="user_id" value="<?= $item -> getUserId() ?>"/>
         <label for="created_at">Created At</label>
         <input type="text" name="created_at" value="<?= $item -> getCreatedAt() -> format("Y-m-d H:i:s") ?>"/>
         <input type="submit" value="Submit"/>

@@ -49,9 +49,18 @@ class ProjectManager extends AbstractManager{
         INSERT INTO projects(title, content, user_id, created_at)
         VALUES(:title, :content, :user_id, NOW())
         ");
-        $parameters = ["title" => $project->getTitle(),
-            "content" => $project->getContent(),
-            "user_id" => $project->getUserId()];
+        if($project -> getUserId() !== null){
+            $parameters = ["title" => $project->getTitle(),
+                "content" => $project->getContent(),
+                "user_id" => intval($project->getUserId())
+            ];
+        }
+        else{
+            $parameters = ["title" => $project->getTitle(),
+                "content" => $project->getContent(),
+                "user_id" => $project->getUserId()
+            ];
+        }
         $query -> execute($parameters);
 
         $id = $this -> db -> lastInsertId();
@@ -66,11 +75,22 @@ class ProjectManager extends AbstractManager{
         created_at = :created_at,
         user_id = :user_id
         WHERE id = :id");
-        $parameters = ["title" => $project->getTitle(),
-            "content" => $project->getContent(),
-            "created_at" => $project->getCreatedAt() -> format("Y-m-d H:i:s"),
-            "user_id" => $project->getUserId(),
-            "id" => $project->getId()];
+        if($project -> getUserId() !== null){
+            $parameters = ["title" => $project->getTitle(),
+                "content" => $project->getContent(),
+                "created_at" => $project->getCreatedAt() -> format("Y-m-d H:i:s"),
+                "user_id" => intval($project->getUserId()),
+                "id" => $project->getId()
+            ];
+        }
+        else{
+            $parameters = ["title" => $project->getTitle(),
+                "content" => $project->getContent(),
+                "created_at" => $project->getCreatedAt() -> format("Y-m-d H:i:s"),
+                "user_id" => $project->getUserId(),
+                "id" => $project->getId()
+            ];
+        }
         $query -> execute($parameters);
     }
 }

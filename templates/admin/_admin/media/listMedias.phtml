@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste Medias</title>
+</head>
+<body>
+    <h1>Médias</h1>
+    <button><a href="?route=createMedia">Créer un média</a></button>
+    <ul>
+        <?php foreach($data as $item){ ?>
+            <li>
+                <p><?= $item -> getAlt() ?></p>
+                <p><?= $item -> getId() ?></p>
+                <button><a href="?route=showMedia&media_id=<?= $item -> getId() ?>">Plus d'infos</a></button>
+                <button><a href="?route=updateMedia&media_id=<?= $item -> getId() ?>">Modifier</a></button>
+                <button><a href="?route=deleteMedia&media_id=<?= $item -> getId() ?>">Supprimer</a></button>
+            </li>
+        <?php } ?>
+    </ul>
+</body>
+</html>

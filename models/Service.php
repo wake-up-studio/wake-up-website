@@ -1,7 +1,7 @@
 <?php
 class Service
 {
-    public function __construct(private string $title, private string $content, private string $created_at = new DateTime(), private ?int $id = null)
+    public function __construct(private string $title, private string $content, private DateTime $created_at = new DateTime(), private ?int $id = null)
     {
 
     }
@@ -28,12 +28,12 @@ class Service
         return $this;
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): DateTime
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(string $created_at): Service
+    public function setCreatedAt(DateTime $created_at): Service
     {
         $this->created_at = $created_at;
         return $this;

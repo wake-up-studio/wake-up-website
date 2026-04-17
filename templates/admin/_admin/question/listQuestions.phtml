@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste Questionnaires</title>
+</head>
+<body>
+    <h1>Questions</h1>
+    <button><a href="?route=createQuestion">Créer une question</a></button>
+    <ul>
+        <?php foreach($data as $item){ ?>
+            <li>
+                <p><?= $item -> getContent() ?></p>
+                <p><?= $item -> getId() ?></p>
+                <button><a href="?route=showQuestion&question_id=<?= $item -> getId() ?>">Plus d'infos</a></button>
+                <button><a href="?route=updateQuestion&question_id=<?= $item -> getId() ?>">Modifier</a></button>
+                <button><a href="?route=deleteQuestion&question_id=<?= $item -> getId() ?>">Supprimer</a></button>
+            </li>
+        <?php } ?>
+    </ul>
+</body>
+</html>

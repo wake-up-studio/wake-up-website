@@ -1,0 +1,23 @@
+<?php
+    $item = $data["question"];
+?>
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Modifier <?= $item -> getContent() ?></title>
+</head>
+<body>
+    <form method="post" action="?route=checkUpdateQuestion&question_id=<?= $item -> getId() ?>">
+        <label for="content">Content</label>
+        <input type="text" name="content" value="<?= $item -> getContent() ?>"/>
+        <label for="form_id">Form Id</label>
+        <input type="number" min="0" step="1" name="form_id" value="<?= $item -> getFormId() ?>"/>
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>

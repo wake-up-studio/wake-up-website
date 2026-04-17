@@ -1,5 +1,5 @@
 <?php
-    $item = $data["user"];
+    $item = $data["service"];
     $date = $item -> getCreatedAt();
 ?>
 
@@ -10,13 +10,13 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?= $item -> getEmail() ?></title>
+    <title><?= $item -> getTitle() ?></title>
 </head>
 <body>
-    <h1><?= $item -> getEmail() ?></h1>
-    <p><?= $item -> getRole() ?></p>
+    <h1><?= $item -> getTitle() ?></h1>
+    <?= $item -> getContent() ?>
     <p><?= $date -> format("Y-m-d H:i:s") ?></p>
-    <button><a href="?route=updateUser&user_id=<?= $item -> getId() ?>">Modifier</a></button>
-    <button><a href="?route=deleteUser&user_id=<?= $item -> getId() ?>">Supprimer</a></button>
+    <button><a href="?route=updateService&service_id=<?= $item -> getId() ?>">Modifier</a></button>
+    <button><a href="?route=deleteService&service_id=<?= $item -> getId() ?>">Supprimer</a></button>
 </body>
 </html>

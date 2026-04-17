@@ -2,12 +2,12 @@
 class Question
 {
 
-    public function __construct(private int $form_id, private string $content, private ?int $id = null)
+    public function __construct(private string $content, private ?int $form_id, private ?int $id = null)
     {
 
     }
 
-    public function getFormId(): int
+    public function getFormId(): ?int
     {
         return $this->form_id;
     }
