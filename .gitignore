@@ -8,3 +8,14 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+
+vendor
+.env
+composer.lock
+/modules.xml
+/.idea
+/php.xml
+
+/vcs.xml
+/Website.iml
+
