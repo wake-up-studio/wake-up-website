@@ -10,21 +10,21 @@ class ServiceController extends AbstractController
 
     public function list(){
         $data = $this -> sm -> findAll();
-        $this -> renderAdmin("_admin/service/listServices", $data);
+        $this -> renderAdmin("service/listServices", $data);
     }
 
     public function show(int $id){
         $service = $this -> sm -> findOne($id);
-        $this -> renderAdmin("_admin/service/showService", ["service" => $service]);
+        $this -> renderAdmin("service/showService", ["service" => $service]);
     }
 
     public function update(int $id){
         $service = $this -> sm -> findOne($id);
-        $this -> renderAdmin("_admin/service/updateService", ["service" => $service]);
+        $this -> renderAdmin("service/updateService", ["service" => $service]);
     }
 
     public function create(){
-        $this -> renderAdmin("_admin/service/createService", []);
+        $this -> renderAdmin("service/createService", []);
     }
 
     //n'affiche rien
@@ -49,17 +49,17 @@ class ServiceController extends AbstractController
                 }
                 else{
                     $data = ["error" => "Oops"];
-                    $this -> renderAdmin("_admin/service/updateService", $data);
+                    $this -> renderAdmin("service/updateService", $data);
                 }
             }
             else{
                 $data = ["error" => "Champs manquants"];
-                $this -> renderAdmin("_admin/service/updateService", []);
+                $this -> renderAdmin("service/updateService", []);
             }
         }
         else{
             $data = ["error" => "Champs manquants"];
-            $this -> renderAdmin("_admin/service/updateService", []);
+            $this -> renderAdmin("service/updateService", []);
         }
     }
 
@@ -75,12 +75,12 @@ class ServiceController extends AbstractController
             }
             else{
                 $data = ["error" => "Champs manquants"];
-                $this -> renderAdmin("_admin/service/createService", []);
+                $this -> renderAdmin("service/createService", []);
             }
         }
         else{
             $data = ["error" => "Champs manquants"];
-            $this -> renderAdmin("_admin/service/createService",[]);
+            $this -> renderAdmin("service/createService",[]);
         }
     }
 

@@ -11,21 +11,21 @@ class FormController extends AbstractController
 
     public function list(){
         $data = $this -> fm -> findAll();
-        $this -> renderAdmin("_admin/form/listForms", $data);
+        $this -> renderAdmin("form/listForms", $data);
     }
 
     public function show(int $id){
         $data = ["form" => $this -> fm -> findOne($id)];
-        $this -> renderAdmin("_admin/form/showForm", $data);
+        $this -> renderAdmin("form/showForm", $data);
     }
 
     public function update(int $id){
         $form = $this -> fm -> findOne($id);
-        $this -> renderAdmin("_admin/form/updateForm", ["form" => $form]);
+        $this -> renderAdmin("form/updateForm", ["form" => $form]);
     }
 
     public function create(){
-        $this -> renderAdmin("_admin/form/createForm", []);
+        $this -> renderAdmin("form/createForm", []);
     }
 
     //n'affiche rien
@@ -54,19 +54,19 @@ class FormController extends AbstractController
                 }
                 else{
                     $data = ["error" => "Oops", "form" => $form];
-                    $this -> renderAdmin("_admin/form/updateForm", $data);
+                    $this -> renderAdmin("form/updateForm", $data);
                 }
             }
             else{
                 $form = $this -> fm -> findOne($id);
                 $data = ["form" => $form];
-                $this -> renderAdmin("_admin/form/updateForm", $data);
+                $this -> renderAdmin("form/updateForm", $data);
             }
         }
         else{
             $form = $this -> fm -> findOne($id);
             $data = ["form" => $form];
-            $this -> renderAdmin("_admin/form/updateForm", $data);
+            $this -> renderAdmin("form/updateForm", $data);
         }
     }
 
@@ -87,11 +87,11 @@ class FormController extends AbstractController
                 $this -> redirect("index.php?route=showForm&form_id=".$form -> getId());
             }
             else{
-                $this -> renderAdmin("_admin/form/createForm", []);
+                $this -> renderAdmin("form/createForm", []);
             }
         }
         else{
-            $this -> renderAdmin("_admin/form/createForm",[]);
+            $this -> renderAdmin("form/createForm",[]);
         }
     }
 
