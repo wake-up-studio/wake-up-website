@@ -11,21 +11,21 @@ class QuestionController extends AbstractController
 
     public function list(){
         $data = $this -> qm -> findAll();
-        $this -> renderAdmin("question/listQuestions", $data);
+        $this -> renderAdmin("_admin/question/listQuestions", $data);
     }
 
     public function show(int $id){
         $data = ["question" => $this -> qm -> findOne($id)];
-        $this -> renderAdmin("question/showQuestion", $data);
+        $this -> renderAdmin("_admin/question/showQuestion", $data);
     }
 
     public function update(int $id){
         $question = $this -> qm -> findOne($id);
-        $this -> renderAdmin("question/updateQuestion", ["question" => $question]);
+        $this -> renderAdmin("_admin/question/updateQuestion", ["question" => $question]);
     }
 
     public function create(){
-        $this -> renderAdmin("question/createQuestion", []);
+        $this -> renderAdmin("_admin/question/createQuestion", []);
     }
 
     //n'affiche rien
@@ -52,19 +52,19 @@ class QuestionController extends AbstractController
                 }
                 else{
                     $data = ["error" => "Oops", "question" => $question];
-                    $this -> renderAdmin("question/updateQuestion", $data);
+                    $this -> renderAdmin("_admin/question/updateQuestion", $data);
                 }
             }
             else{
                 $question = $this -> qm -> findOne($id);
                 $data = ["question" => $question];
-                $this -> renderAdmin("question/updateQuestion", $data);
+                $this -> renderAdmin("_admin/question/updateQuestion", $data);
             }
         }
         else{
             $question = $this -> qm -> findOne($id);
             $data = ["question" => $question];
-            $this -> renderAdmin("question/updateQuestion", $data);
+            $this -> renderAdmin("_admin/question/updateQuestion", $data);
         }
     }
 
@@ -84,11 +84,11 @@ class QuestionController extends AbstractController
                 $this -> redirect("index.php?route=showQuestion&question_id=".$question -> getId());
             }
             else{
-                $this -> renderAdmin("question/createQuestion", []);
+                $this -> renderAdmin("_admin/question/createQuestion", []);
             }
         }
         else{
-            $this -> renderAdmin("question/createQuestion",[]);
+            $this -> renderAdmin("_admin/question/createQuestion",[]);
         }
     }
 

@@ -10,21 +10,21 @@ class MediaController extends AbstractController
 
     public function list(){
         $data = $this -> mm -> findAll();
-        $this -> renderAdmin("media/listMedias", $data);
+        $this -> renderAdmin("_admin/media/listMedias", $data);
     }
 
     public function show(int $id){
         $data = ["media" => $this -> mm -> findOne($id)];
-        $this -> renderAdmin("media/showMedia", $data);
+        $this -> renderAdmin("_admin/media/showMedia", $data);
     }
 
     public function update(int $id){
         $media = $this -> mm -> findone($id);
-        $this -> renderAdmin("media/updateMedia", ["media" => $media]);
+        $this -> renderAdmin("_admin/media/updateMedia", ["media" => $media]);
     }
 
     public function create(){
-        $this -> renderAdmin("media/createMedia", []);
+        $this -> renderAdmin("_admin/media/createMedia", []);
     }
 
     //n'affiche rien
@@ -48,17 +48,17 @@ class MediaController extends AbstractController
                 }
                 else{
                     $data = ["error" => "Oops"];
-                    $this -> renderAdmin("media/updateMedia", $data);
+                    $this -> renderAdmin("_admin/media/updateMedia", $data);
                 }
             }
             else{
                 $data = ["error" => "Champs manquants"];
-                $this -> renderAdmin("media/updateMedia", []);
+                $this -> renderAdmin("_admin/media/updateMedia", []);
             }
         }
         else{
             $data = ["error" => "Champs manquants"];
-            $this -> renderAdmin("media/updateMedia", []);
+            $this -> renderAdmin("_admin/media/updateMedia", []);
         }
     }
 
@@ -74,12 +74,12 @@ class MediaController extends AbstractController
             }
             else{
                 $data = ["error" => "Champs manquants"];
-                $this -> renderAdmin("media/createMedia", []);
+                $this -> renderAdmin("_admin/media/createMedia", []);
             }
         }
         else{
             $data = ["error" => "Champs manquants"];
-            $this -> renderAdmin("media/createMedia", []);
+            $this -> renderAdmin("_admin/media/createMedia", []);
         }
     }
 
