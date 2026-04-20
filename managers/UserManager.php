@@ -35,6 +35,22 @@ class UserManager extends AbstractManager{
         return null;
     }
 
+    public function findByEmail(string $email) : ?User{
+        $query = $this -> db -> prepare("
+            SELECT *
+            FROM users
+            WHERE email = :email
+        ");
+        $parameters = ["email" => $email];
+        $query -> execute($parameters);
+        $result = $query -> fetch(PDO::FETCH_ASSOC);
+        if($result){
+            $user = new User($result["email"], $result["password"], $result["role"],DateTime::createFromFormat('Y-m-d H:i:s', $result["created_at"]), $result["id"]);
+            return $user;
+        }
+        return null;
+    }
+
     public function delete(int $id){
         $query = $this -> db -> prepare("
         DELETE FROM users

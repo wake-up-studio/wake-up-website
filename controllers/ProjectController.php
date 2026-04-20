@@ -11,21 +11,21 @@ class ProjectController extends AbstractController
 
     public function list(){
         $data = $this -> pm -> findAll();
-        $this -> renderAdmin("project/listProjects", $data);
+        $this -> renderAdmin("_admin/project/listProjects", $data);
     }
 
     public function show(int $id){
         $data = ["project" => $this -> pm -> findOne($id)];
-        $this -> renderAdmin("project/showProject", $data);
+        $this -> renderAdmin("_admin/project/showProject", $data);
     }
 
     public function update(int $id){
         $project = $this -> pm -> findOne($id);
-        $this -> renderAdmin("project/updateProject", ["project" => $project]);
+        $this -> renderAdmin("_admin/project/updateProject", ["project" => $project]);
     }
 
     public function create(){
-        $this -> renderAdmin("project/createProject", []);
+        $this -> renderAdmin("_admin/project/createProject", []);
     }
 
     //n'affiche rien
@@ -54,19 +54,19 @@ class ProjectController extends AbstractController
                 }
                 else{
                     $data = ["error" => "Oops", "project" => $project];
-                    $this -> renderAdmin("project/updateProject", $data);
+                    $this -> renderAdmin("_admin/project/updateProject", $data);
                 }
             }
             else{
                 $project = $this -> pm -> findOne($id);
                 $data = ["project" => $project];
-                $this -> renderAdmin("project/updateProject", $data);
+                $this -> renderAdmin("_admin/project/updateProject", $data);
             }
         }
         else{
             $project = $this -> pm -> findOne($id);
             $data = ["project" => $project];
-            $this -> renderAdmin("project/updateProject", $data);
+            $this -> renderAdmin("_admin/project/updateProject", $data);
         }
     }
 
@@ -89,12 +89,12 @@ class ProjectController extends AbstractController
             }
             else{
                 $data = ["error" => "Champs manquants"];
-                $this -> renderAdmin("project/createProject", []);
+                $this -> renderAdmin("_admin/project/createProject", []);
             }
         }
         else{
             $data = ["error" => "Champs manquants"];
-            $this -> renderAdmin("project/createProject",[]);
+            $this -> renderAdmin("_admin/project/createProject",[]);
         }
     }
 

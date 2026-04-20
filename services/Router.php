@@ -150,13 +150,29 @@ class Router{
                 $this -> qc -> checkUpdate($get["question_id"]);
             }
 
+            // ROUTER ADMIN CLIENT
+            else if($get["route"] == "homeClient"){
+                $this -> uc -> homeClient($_SESSION["user_id"]);
+            }
+
+            //AUTHENTIFICATION
+            else if($get["route"] == "authUser"){
+                $this -> uc -> auth();
+            }
+            else if($get["route"] == "checkAuthUser"){
+                $this -> uc -> checkAuth();
+            }
+            else if($get["route"] == "logout"){
+                $this -> uc -> logout();
+            }
+
             // ERREUR
             else{
                 echo "Wow, chui où ?";
             }
         }
         else{
-            $this -> uc -> list();
+            $this -> uc -> auth();
         }
     }
 }

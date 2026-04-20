@@ -8,26 +8,28 @@ class UserController extends AbstractController
         $this -> um = new UserManager();
     }
 
+// AFFICHAGE
+
     public function list(){
         $data = $this -> um -> findAll();
-        $this -> renderAdmin("user/listUsers", $data);
+        $this -> renderAdmin("_admin/user/listUsers", $data);
     }
 
     public function show(int $id){
         $data = ["user" => $this -> um -> findOne($id)];
-        $this -> renderAdmin("user/showUser", $data);
+        $this -> renderAdmin("_admin/user/showUser", $data);
     }
 
     public function update(int $id){
         $user = $this -> um -> findone($id);
-        $this -> renderAdmin("user/updateUser", ["user" => $user]);
+        $this -> renderAdmin("_admin/user/updateUser", ["user" => $user]);
     }
 
     public function create(){
-        $this -> renderAdmin("user/createUser", []);
+        $this -> renderAdmin("_admin/user/createUser", []);
     }
 
-    //n'affiche rien
+//CHECK AFFICHAGE
 
     public function delete(int $id){
         $this -> um -> delete($id);
@@ -53,17 +55,17 @@ class UserController extends AbstractController
                 }
                 else{
                     $data = ["error" => "Oops"];
-                    $this -> renderAdmin("user/updateUser", $data);
+                    $this -> renderAdmin("_admin/user/updateUser", $data);
                 }
             }
             else{
                 $data = ["error" => "Champs manquants"];
-                $this -> renderAdmin("user/updateUser", []);
+                $this -> renderAdmin("_admin/user/updateUser", []);
             }
         }
         else{
             $data = ["error" => "Champs manquants"];
-            $this -> renderAdmin("user/updateUser", []);
+            $this -> renderAdmin("_admin/user/updateUser", []);
         }
     }
 
@@ -83,13 +85,69 @@ class UserController extends AbstractController
             }
             else{
                 $data = ["error" => "Champs manquants"];
-                $this -> renderAdmin("user/createUser", []);
+                $this -> renderAdmin("_admin/user/createUser", []);
             }
         }
         else{
             $data = ["error" => "Champs manquants"];
-            $this -> renderAdmin("user/createUser", []);
+            $this -> renderAdmin("_admin/user/createUser", []);
         }
+    }
+
+//AUTHENTIFICATION
+
+    public function auth(){
+        $this -> renderFront("auth/authUser", []);
+    }
+
+    public function checkAuth() {
+        if (isset($_POST["email"], $_POST["password"])) {
+            $email = $_POST["email"];
+            $chars_email = htmlspecialchars($_POST["email"]);
+            $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+
+            if (!empty(trim($chars_email)) && !empty(trim($password))) {
+                $user = $this->um->findByEmail($email);
+
+                if ($user !== null) {
+                    if (password_verify($_POST["password"], $user->getPassword())) {
+                        unset($_SESSION["error"], $_SESSION["email"]);
+                        $_SESSION["user_id"] = $user -> getId();
+                        $_SESSION["role"] = $user -> getRole();
+
+                        if($_SESSION["role"] == "admin"){
+                            $this->renderAdmin("_admin/user/listUsers", $this->um->findAll());
+                        }
+                        else{
+                            $user = $this -> um -> findOne($_SESSION["user_id"]);
+                            $this -> renderAdmin("_client/homeClient", ["user" => $user]);
+                        }
+                    } else {
+                        $_SESSION["error"] = "Mot de passe incorrect";
+                        $_SESSION["email"] = $chars_email;
+                        $this->renderFront("auth/authUser", $_SESSION);
+                    }
+                } else {
+                    $_SESSION["error"] = "Email incorrect";
+                    $this->renderFront("auth/authUser", $_SESSION);
+                }
+            } else {
+                $_SESSION["error"] = "Champs manquants";
+                $this->renderFront("auth/authUser", $_SESSION);
+            }
+        }
+    }
+
+    public function logout(){
+        unset($_SESSION["token"]);
+        $this -> redirect("index.php");
+    }
+
+//CLIENT
+
+    public function homeClient($id){
+        $user = $this -> um -> findOne($id);
+        $this -> renderAdmin("_client/homeClient");
     }
 
 }
