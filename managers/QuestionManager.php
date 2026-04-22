@@ -19,6 +19,22 @@ class QuestionManager extends AbstractManager{
         return $questions;
     }
 
+    public function findByFormId($id) : array {
+        $query = $this -> db -> prepare("
+                SELECT *
+                FROM questions
+                WHERE form_id = :form_id
+            ");
+        $parameters = ["form_id" => $id];
+        $query -> execute($parameters);
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC);
+        $questions = [];
+        foreach($results as $result){
+            $questions[] = new Question($result["content"], $result["form_id"], $result["id"]);
+        }
+        return $questions;
+    }
+
     public function findOne(int $id) : ?Question{
         $query = $this -> db -> prepare("
             SELECT *

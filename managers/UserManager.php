@@ -14,7 +14,7 @@ class UserManager extends AbstractManager{
         $results = $query -> fetchAll(PDO::FETCH_ASSOC);
         $users = [];
         foreach($results as $result){
-            $users[] = new User($result["email"], $result["password"], $result["role"],DateTime::createFromFormat('Y-m-d H:i:s', $result["created_at"]), $result["id"]);
+            $users[] = new User($result["first_name"], $result["last_name"], $result["email"], $result["password"], $result["role"],DateTime::createFromFormat('Y-m-d H:i:s', $result["created_at"]), $result["id"]);
         }
         return $users;
     }
@@ -29,7 +29,7 @@ class UserManager extends AbstractManager{
         $query -> execute($parameters);
         $result = $query -> fetch(PDO::FETCH_ASSOC);
         if($result){
-            $user = new User($result["email"], $result["password"], $result["role"],DateTime::createFromFormat('Y-m-d H:i:s', $result["created_at"]), $result["id"]);
+            $user = new User($result["first_name"], $result["last_name"], $result["email"], $result["password"], $result["role"],DateTime::createFromFormat('Y-m-d H:i:s', $result["created_at"]), $result["id"]);
             return $user;
         }
         return null;
@@ -45,7 +45,7 @@ class UserManager extends AbstractManager{
         $query -> execute($parameters);
         $result = $query -> fetch(PDO::FETCH_ASSOC);
         if($result){
-            $user = new User($result["email"], $result["password"], $result["role"],DateTime::createFromFormat('Y-m-d H:i:s', $result["created_at"]), $result["id"]);
+            $user = new User($result["first_name"], $result["last_name"], $result["email"], $result["password"], $result["role"],DateTime::createFromFormat('Y-m-d H:i:s', $result["created_at"]), $result["id"]);
             return $user;
         }
         return null;
@@ -63,12 +63,15 @@ class UserManager extends AbstractManager{
     public function create(User $user){
         $query = $this -> db -> prepare("
         INSERT INTO users
-        (email, password, role, created_at)
-        VALUES (:email, :password, :role, NOW())
+        (first_name, last_name, email, password, role, created_at)
+        VALUES (:first_name, :last_name, :email, :password, :role, NOW())
         ");
-        $parameters = ["email" => $user->getEmail(),
+        $parameters = ["first_name" => $user->getFirstName(),
+            "last_name" => $user->getLastName(),
+            "email" => $user->getEmail(),
             "password" => $user->getPassword(),
-            "role" => $user->getRole()];
+            "role" => $user->getRole()
+            ];
         $query -> execute($parameters);
         $id = $this -> db -> lastInsertId();
         $user->setId($id);
@@ -77,13 +80,17 @@ class UserManager extends AbstractManager{
     public function update(User $user){
         $query = $this -> db -> prepare("
         UPDATE users
-        SET email = :email,
+        SET first_name = :first_name,
+            last_name = :last_name,
+            email = :email,
             password = :password,
             role = :role,
             created_at = :created_at
             WHERE id = :id
             ");
-        $parameters = ["email" => $user->getEmail(),
+        $parameters = ["first_name" => $user->getFirstName(),
+            "last_name" => $user->getLastName(),
+            "email" => $user->getEmail(),
             "password" => $user->getPassword(),
             "role" => $user->getRole(),
             "created_at" => $user->getCreatedAt() -> format("Y-m-d H:i:s"),

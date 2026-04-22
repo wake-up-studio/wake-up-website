@@ -3,6 +3,8 @@
 class QuestionController extends AbstractController
 {
 
+//AFFICHAGE ADMIN
+
     public function __construct()
     {
         $this -> qm = new QuestionManager();
@@ -28,7 +30,7 @@ class QuestionController extends AbstractController
         $this -> renderAdmin("_admin/question/createQuestion", []);
     }
 
-    //n'affiche rien
+//CHECK AFFICHAGE CLIENT
 
     public function delete(int $id){
         $this -> qm -> delete($id);
@@ -91,5 +93,8 @@ class QuestionController extends AbstractController
             $this -> renderAdmin("_admin/question/createQuestion",[]);
         }
     }
+
+//AFFICHAGE CLIENT
+
 
 }

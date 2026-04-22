@@ -14,6 +14,8 @@
 <body>
     <h1><?= $item -> getTitle() ?></h1>
     <p><?= $item -> getContent() ?></p>
-    <button><a href="?route=homeClient">Retour</a></button>
+    <button><a href="?route=formClient&form_id=<?= $item -> getId() ?>">Commencer votre questionnaire</a></button>
+    <br/>
+    <button><a href="?route=homeClient">Retour à votre espace client</a></button>
 </body>
 </html>

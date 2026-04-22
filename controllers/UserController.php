@@ -33,7 +33,7 @@ class UserController extends AbstractController
 
     public function delete(int $id){
         $this -> um -> delete($id);
-        $this -> redirect("index.php");
+        $this -> redirect("index.php?route=listUsers");
     }
 
     public function checkUpdate(int $id){
@@ -63,15 +63,18 @@ class UserController extends AbstractController
                 $this -> redirect("index.php?route=updateUser&user_id=" . $id);
             }
         }
-        else if (isset($_POST["email"],$_POST["role"], $_POST["created_at"])) {
+        else if (isset($_POST["first_name"], $_POST["last_name"], $_POST["email"],$_POST["role"], $_POST["created_at"])) {
+            $first_name = $_POST["first_name"];
+            $last_name = $_POST["last_name"];
             $email = $_POST["email"];
             $role = $_POST["role"];
             $created_at = $_POST["created_at"];
             $regexEmail = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9._%+-]+\.[A-Za-z]{2,}$/';
 
-            if (preg_match($regexEmail, $_POST["email"]) && !empty(trim($role)) && !empty(trim($created_at))) {
+            if (preg_match($regexEmail, $_POST["email"]) && !empty(trim($first_name)) && !empty(trim($last_name))
+                && !empty(trim($role)) && !empty(trim($created_at))) {
                 $user = $this->um->findOne($id);
-                $newUser = new User($email, $user->getPassword(), $role, DateTime::createFromFormat('Y-m-d H:i:s', $created_at), $id);
+                $newUser = new User($first_name, $last_name, $email, $user->getPassword(), $role, DateTime::createFromFormat('Y-m-d H:i:s', $created_at), $id);
 
                 if ($newUser !== null) {
                     $this->um->update($newUser);
@@ -94,15 +97,18 @@ class UserController extends AbstractController
     }
 
     public function checkCreate(){
-        if (isset($_POST["email"], $_POST["password"], $_POST["role"])){
+        if (isset($_POST["first_name"], $_POST["last_name"], $_POST["email"], $_POST["password"], $_POST["role"])){
+            $first_name = $_POST["first_name"];
+            $last_name = $_POST["last_name"];
             $email = $_POST["email"];
             $password = $_POST["password"];
             $role = $_POST["role"];
             $regexEmail = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9._%+-]+\.[A-Za-z]{2,}$/';
 
-            if(preg_match($regexEmail, $_POST["email"]) && !empty(trim($password)) && !empty(trim($role))){
+            if(preg_match($regexEmail, $_POST["email"]) && !empty(trim($first_name))
+                && !empty(trim($last_name)) && !empty(trim($role)) && !empty(trim($password)) ){
                 $securedPassword = password_hash($password, PASSWORD_DEFAULT);
-                $user = new User($email, $securedPassword, $role);
+                $user = new User($first_name, $last_name, $email, $securedPassword, $role);
                 $this -> um -> create($user);
                 $data= [];
                 $this -> redirect("index.php?route=showUser&user_id=".$user -> getId());

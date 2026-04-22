@@ -7,6 +7,7 @@ class FormController extends AbstractController
     public function __construct()
     {
         $this -> fm = new FormManager();
+        $this -> qm = new QuestionManager();
         $this -> um = new UserManager();
     }
 
@@ -98,9 +99,20 @@ class FormController extends AbstractController
 
 //AFFICHAGE CLIENT
 
-    public function showFormClient(int $id){
+    public function homeFormClient(int $id){
         $data = ["form" => $this -> fm -> findOne($id)];
-        $this -> renderAdmin("_client/formClient", $data);
+        $this -> renderAdmin("_client/formClient/formHomeClient", $data);
+    }
+
+    public function formClient(int $id){
+        $data = ["questions" => $this -> qm -> findByFormId($id),
+            "form" => $this -> fm -> findOne($id),
+        ];
+        $this -> renderAdmin("_client/formClient/formClient", $data);
+    }
+
+    public function sendFormCLient(){
+        $this -> redirect("?route=homeClient");
     }
 
 }

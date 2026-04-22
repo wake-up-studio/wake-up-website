@@ -10,8 +10,8 @@
     <ul>
         <?php foreach($data as $item){ ?>
             <li>
-                <p><?= $item -> getContent() ?></p>
                 <p><?= $item -> getId() ?></p>
+                <p><?= $item -> getContent() ?></p>
                 <button><a href="?route=showQuestion&question_id=<?= $item -> getId() ?>">Plus d'infos</a></button>
                 <button><a href="?route=updateQuestion&question_id=<?= $item -> getId() ?>">Modifier</a></button>
                 <button><a href="?route=deleteQuestion&question_id=<?= $item -> getId() ?>">Supprimer</a></button>

@@ -13,7 +13,9 @@
     <title><?= $item -> getEmail() ?></title>
 </head>
 <body>
-    <h1><?= $item -> getEmail() ?></h1>
+    <h1><?= $item -> getFirstName() ?> <?= $item -> getLastName() ?></h1>
+    <h2><?= $item -> getId() ?></h2>
+    <p><?= $item -> getEmail() ?></p>
     <p><?= $item -> getRole() ?></p>
     <p><?= $date -> format("Y-m-d H:i:s") ?></p>
     <button><a href="?route=updateUser&user_id=<?= $item -> getId() ?>">Modifier</a></button>

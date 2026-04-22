@@ -1,6 +1,6 @@
 <?php
 
-error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 require "config/autoload.php";
 

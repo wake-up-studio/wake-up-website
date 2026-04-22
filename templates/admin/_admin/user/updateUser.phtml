@@ -14,6 +14,10 @@
 </head>
 <body>
     <form method="post" action="?route=checkUpdateUser&user_id=<?= $item -> getId() ?>">
+        <label for="first_name">Prénom</label>
+        <input type="text" name="first_name" value="<?= $item -> getFirstName() ?>"/>
+        <label for="last_name">Nom de Famille</label>
+        <input type="text" name="last_name" value="<?= $item -> getLastName() ?>"/>
         <label for="email">Email</label>
         <input type="email" name="email" value="<?= $item -> getEmail() ?>"/>
         <label for="role">Role</label>

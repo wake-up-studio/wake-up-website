@@ -2,10 +2,32 @@
 
 class User
 {
-    public function __construct(private string $email, private string $password, private string $role,
+    public function __construct(private string $first_name, private string $last_name, private string $email, private string $password, private string $role,
                                 private DateTime $created_at = new DateTime(), private ?int $id = null)
     {
 
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->first_name;
+    }
+
+    public function setFirstName(string $first_name): User
+    {
+        $this->first_name = $first_name;
+        return $this;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->last_name;
+    }
+
+    public function setLastName(?string $last_name): User
+    {
+        $this->last_name = $last_name;
+        return $this;
     }
 
     public function getEmail(): string

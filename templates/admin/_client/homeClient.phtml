@@ -18,7 +18,7 @@
     <?php if($forms != null) { ?>
         <?php foreach ($forms as $form) { ?>
             <p>Le questionnaire "<?= $form -> getTitle() ?>" n'attends que vous..!</p>
-            <button><a href="?route=formClient&form_id=<?= $form -> getId() ?>">Remplir "<?= $form -> getTitle() ?>"</a></button>
+            <button><a href="?route=formHomeClient&form_id=<?= $form -> getId() ?>">Remplir "<?= $form -> getTitle() ?>"</a></button>
         <?php } ?>
     <?php } else { ?>
         <p>Aucun questionnaire en attente</p>
