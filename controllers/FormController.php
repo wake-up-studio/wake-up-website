@@ -111,8 +111,8 @@ class FormController extends AbstractController
         $this -> renderAdmin("_client/formClient/formClient", $data);
     }
 
-    public function sendFormCLient(){
-        $this -> redirect("?route=homeClient");
+    public function sendFormCLient($data){
+        $body = $_POST["body"];
     }
 
 }

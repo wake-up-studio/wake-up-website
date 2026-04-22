@@ -13,7 +13,9 @@
     <title><?= $form -> getTitle() ?></title>
 </head>
 <body>
-    <form method="get" action="?route=sendFormClient">
+    <form method="post" action="?route=sendFormClient">
+        <label for="message">Message</label>
+        <input type="text" name="message">
         <input type="submit" value="Envoyer" />
     </form>
 </body>
