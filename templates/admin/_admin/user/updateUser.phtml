@@ -1,5 +1,6 @@
 <?php
     $item = $data["user"];
+    var_dump($_SESSION["error"]);
 ?>
 
 <!doctype html>
@@ -15,8 +16,6 @@
     <form method="post" action="?route=checkUpdateUser&user_id=<?= $item -> getId() ?>">
         <label for="email">Email</label>
         <input type="email" name="email" value="<?= $item -> getEmail() ?>"/>
-        <label for="password">Password</label>
-        <input type="password" name="password"/>
         <label for="role">Role</label>
         <select name="role">
             <option value="client">CLIENT</option>
@@ -26,5 +25,15 @@
         <input type="text" name="created_at" value="<?= $item -> getCreatedAt() -> format("Y-m-d H:i:s") ?>"/>
         <input type="submit" value="Submit"/>
     </form>
+    <form method="post" action="?route=checkUpdateUser&user_id=<?= $item -> getId() ?>">
+        <label for="password">Password</label>
+        <input type="password" name="password" required/>
+        <label for="checkPassword">Check Password</label>
+        <input type="password" name="checkPassword" required/>
+        <input type="submit" value="Submit"/>
+    </form>
+    <?php if($_SESSION["error"]){ ?>
+        <p><?= $_SESSION["error"] ?></p>
+    <?php } ?>
 </body>
 </html>

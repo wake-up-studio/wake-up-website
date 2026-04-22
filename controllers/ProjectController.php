@@ -3,6 +3,8 @@
 class ProjectController extends AbstractController
 {
 
+//AFFICHAGE ADMIN
+
     public function __construct()
     {
         $this -> pm = new ProjectManager();
@@ -28,7 +30,7 @@ class ProjectController extends AbstractController
         $this -> renderAdmin("_admin/project/createProject", []);
     }
 
-    //n'affiche rien
+//CHECK AFFICHAGE ADMIN
 
     public function delete(int $id){
         $this -> pm -> delete($id);
@@ -97,5 +99,12 @@ class ProjectController extends AbstractController
             $this -> renderAdmin("_admin/project/createProject",[]);
         }
     }
+
+//AFFICHAGE CLIENT
+
+public function showProjectClient(int $id){
+    $data = ["project" => $this -> pm -> findOne($id)];
+    $this -> renderAdmin("_client/projectClient", $data);
+}
 
 }

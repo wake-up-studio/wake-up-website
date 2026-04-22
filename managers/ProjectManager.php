@@ -19,6 +19,25 @@ class ProjectManager extends AbstractManager{
         return $projects;
     }
 
+    public function findByUserId(int $id) : ?array{
+        $query = $this -> db -> prepare("
+            SELECT *
+            FROM projects
+            WHERE user_id = :user_id
+        ");
+        $parameters = ["user_id" => $id];
+        $query -> execute($parameters);
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC);
+        $projects = [];
+        foreach($results as $result){
+            $projects[] = new Project ($result["title"], $result["content"], $result["user_id"], DateTime::createFromFormat("Y-m-d H:i:s", $result["created_at"] ), $result["id"]);
+        }
+        if(count($projects) != 0){
+            return $projects;
+        }
+        return null;
+    }
+
     public function findOne(int $id) : ?Project{
         $query = $this -> db -> prepare("
             SELECT *

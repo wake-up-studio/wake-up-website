@@ -37,35 +37,59 @@ class UserController extends AbstractController
     }
 
     public function checkUpdate(int $id){
-        if (isset($_POST["email"],$_POST["role"])){
-            $email = $_POST["email"];
+        if(isset($_POST["password"], $_POST["checkPassword"])){
             $password = $_POST["password"];
+            $checkPassword = $_POST["checkPassword"];
+
+            if(!empty(trim($password)) && !empty(trim($checkPassword))) {
+                if ($password === $checkPassword) {
+                    $user = $this->um->findOne($id);
+                    if ($user !== null) {
+                        $securedPassword = password_hash($password, PASSWORD_DEFAULT);
+                        $user->setPassword($securedPassword);
+                        unset($_SESSION["error"]);
+                        $this->redirect("index.php?route=showUser&user_id=" . $user->getId());
+                    } else {
+                        $_SESSION["error"] = "Oops";
+                        $this -> redirect("index.php?route=updateUser&user_id=" . $id);
+                    }
+                } else {
+                    $_SESSION["error"] = "Les mots de passe ne correspondent pas !";
+                    $this -> redirect("index.php?route=updateUser&user_id=" . $id);
+                }
+            }
+            else{
+                $_SESSION["error"] = "Champs manquants";
+                $this -> redirect("index.php?route=updateUser&user_id=" . $id);
+            }
+        }
+        else if (isset($_POST["email"],$_POST["role"], $_POST["created_at"])) {
+            $email = $_POST["email"];
             $role = $_POST["role"];
             $created_at = $_POST["created_at"];
             $regexEmail = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9._%+-]+\.[A-Za-z]{2,}$/';
 
-            if(preg_match($regexEmail, $_POST["email"]) && !empty(trim($password)) && !empty(trim($role))&& !empty(trim($created_at))){
-                $securedPassword = password_hash($password, PASSWORD_DEFAULT);
-                $user = new User($email, $securedPassword, $role, DateTime::createFromFormat('Y-m-d H:i:s', $created_at), $id);
+            if (preg_match($regexEmail, $_POST["email"]) && !empty(trim($role)) && !empty(trim($created_at))) {
+                $user = $this->um->findOne($id);
+                $newUser = new User($email, $user->getPassword(), $role, DateTime::createFromFormat('Y-m-d H:i:s', $created_at), $id);
 
-                if($user !== null){
-                    $this -> um -> update($user);
-                    $data= [];
-                    $this -> redirect("index.php?route=showUser&user_id=".$user -> getId());
-                }
-                else{
-                    $data = ["error" => "Oops"];
-                    $this -> renderAdmin("_admin/user/updateUser", $data);
+                if ($newUser !== null) {
+                    $this->um->update($newUser);
+                    unset($_SESSION["error"]);
+                    $this->redirect("index.php?route=showUser&user_id=" . $newUser->getId());
+                } else {
+                    $_SESSION["error"] = "Oops";
+                    $this -> redirect("index.php?route=updateUser&user_id=" . $id);
                 }
             }
-            else{
-                $data = ["error" => "Champs manquants"];
-                $this -> renderAdmin("_admin/user/updateUser", []);
+            else {
+                $_SESSION["error"] = "Champs manquants";
+                $this -> redirect("index.php?route=updateUser&user_id=" . $id);
             }
         }
         else{
-            $data = ["error" => "Champs manquants"];
-            $this -> renderAdmin("_admin/user/updateUser", []);
+            $_SESSION["error"] = "Champs manquants";
+            $this -> redirect("index.php?route=updateUser&user_id=" . $id);
         }
     }
 
@@ -84,13 +108,13 @@ class UserController extends AbstractController
                 $this -> redirect("index.php?route=showUser&user_id=".$user -> getId());
             }
             else{
-                $data = ["error" => "Champs manquants"];
-                $this -> renderAdmin("_admin/user/createUser", []);
+                $_SESSION["error"] = "Champs manquants";
+                $this -> renderAdmin("_admin/user/createUser", $_SESSION["error"]);
             }
         }
         else{
-            $data = ["error" => "Champs manquants"];
-            $this -> renderAdmin("_admin/user/createUser", []);
+            $_SESSION["error"] = "Champs manquants";
+            $this -> renderAdmin("_admin/user/createUser", $_SESSION["error"]);
         }
     }
 
@@ -119,8 +143,7 @@ class UserController extends AbstractController
                             $this->renderAdmin("_admin/user/listUsers", $this->um->findAll());
                         }
                         else{
-                            $user = $this -> um -> findOne($_SESSION["user_id"]);
-                            $this -> renderAdmin("_client/homeClient", ["user" => $user]);
+                            $this -> redirect("index.php?route=homeClient");
                         }
                     } else {
                         $_SESSION["error"] = "Mot de passe incorrect";
@@ -145,9 +168,13 @@ class UserController extends AbstractController
 
 //CLIENT
 
-    public function homeClient($id){
-        $user = $this -> um -> findOne($id);
-        $this -> renderAdmin("_client/homeClient");
+    public function homeClient(array $data){
+        $user = $this -> um -> findOne($data["user_id"]);
+        $this -> renderAdmin("_client/homeClient", $data);
+    }
+
+    public function rdvClient(){
+        $this -> renderAdmin("_client/rdvClient", []);
     }
 
 }

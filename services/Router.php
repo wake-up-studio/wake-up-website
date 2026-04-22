@@ -150,11 +150,6 @@ class Router{
                 $this -> qc -> checkUpdate($get["question_id"]);
             }
 
-            // ROUTER ADMIN CLIENT
-            else if($get["route"] == "homeClient"){
-                $this -> uc -> homeClient($_SESSION["user_id"]);
-            }
-
             //AUTHENTIFICATION
             else if($get["route"] == "authUser"){
                 $this -> uc -> auth();
@@ -164,6 +159,27 @@ class Router{
             }
             else if($get["route"] == "logout"){
                 $this -> uc -> logout();
+            }
+
+            // ROUTER ADMIN CLIENT
+            else if($get["route"] == "homeClient" && isset($_SESSION["user_id"])){
+                $fm = new FormManager();
+                $pm = new ProjectManager();
+                $data = [
+                    "user_id" => $_SESSION["user_id"],
+                    "forms" => $fm -> findByUserId($_SESSION["user_id"]),
+                    "projects" => $pm -> findByUserId($_SESSION["user_id"])
+                ];
+                $this -> uc -> homeClient($data);
+            }
+            else if ($get["route"] == "formClient" && isset($get["form_id"])){
+                $this -> fc -> showFormClient($get["form_id"]);
+            }
+            else if ($get["route"] == "projectClient" && isset($get["project_id"])){
+                $this -> pc -> showProjectClient($get["project_id"]);
+            }
+            else if ($get["route"] == "rdvClient" && isset($_SESSION["user_id"])){
+                $this -> uc -> rdvClient();
             }
 
             // ERREUR

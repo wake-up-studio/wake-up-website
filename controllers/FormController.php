@@ -3,6 +3,7 @@
 class FormController extends AbstractController
 {
 
+// AFFICHAGE ADMIN
     public function __construct()
     {
         $this -> fm = new FormManager();
@@ -28,7 +29,7 @@ class FormController extends AbstractController
         $this -> renderAdmin("_admin/form/createForm", []);
     }
 
-    //n'affiche rien
+// CHECK AFFICHAGE ADMIN
 
     public function delete(int $id){
         $this -> fm -> delete($id);
@@ -93,6 +94,13 @@ class FormController extends AbstractController
         else{
             $this -> renderAdmin("_admin/form/createForm",[]);
         }
+    }
+
+//AFFICHAGE CLIENT
+
+    public function showFormClient(int $id){
+        $data = ["form" => $this -> fm -> findOne($id)];
+        $this -> renderAdmin("_client/formClient", $data);
     }
 
 }

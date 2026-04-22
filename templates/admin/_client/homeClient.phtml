@@ -1,5 +1,7 @@
 <?php
-    $item = $data["user"];
+    $user_id = $data["user_id"];
+    $forms = $data["forms"];
+    $projects = $data["projects"];
 ?>
 
 <!doctype html>
@@ -13,6 +15,24 @@
 </head>
 <body>
     <h1>Bienvenue chez vous..!</h1>
-    <p><?= $item -> getEmail() ?></p>
+    <?php if($forms != null) { ?>
+        <?php foreach ($forms as $form) { ?>
+            <p>Le questionnaire "<?= $form -> getTitle() ?>" n'attends que vous..!</p>
+            <button><a href="?route=formClient&form_id=<?= $form -> getId() ?>">Remplir "<?= $form -> getTitle() ?>"</a></button>
+        <?php } ?>
+    <?php } else { ?>
+        <p>Aucun questionnaire en attente</p>
+    <?php } ?>
+    <?php if($projects != null) { ?>
+        <?php foreach ($projects as $project) { ?>
+            <p>Vous allez enfin pouvoir découvrir <a href="?route=projectClient&project_id=<?= $project -> getId() ?>">votre projet..!</a> C'est excitant..!</p>
+            <button><a href="?route=projectClient&project_id=<?= $project -> getId() ?>">Voir "<?= $project -> getTitle() ?>"</a></button>
+        <?php } ?>
+    <?php } else { ?>
+        <p>Aucun projet en attente</p>
+    <?php } ?>
+    <br/>
+    <br/>
+    <button><a href="?route=rdvClient">Prendre rendez-vous</a></button>
 </body>
 </html>

@@ -35,6 +35,25 @@ class FormManager extends AbstractManager{
         return null;
     }
 
+    public function findByUserId(int $id) : ?array{
+        $query = $this -> db -> prepare("
+            SELECT *
+            FROM forms
+            WHERE user_id = :user_id
+        ");
+        $parameters = ["user_id" => $id];
+        $query -> execute($parameters);
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC);
+        $forms = [];
+        foreach($results as $result){
+            $forms[] = new Form($result["title"], $result["content"], $result["user_id"], DateTime::createFromFormat("Y-m-d H:i:s", $result["created_at"] ), $result["id"]);;
+        }
+        if(count($forms) != 0){
+            return $forms;
+        }
+        return null;
+    }
+
     public function delete(int $id){
         $query = $this -> db -> prepare("
         DELETE FROM forms
