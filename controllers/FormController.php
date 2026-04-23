@@ -9,6 +9,7 @@ class FormController extends AbstractController
         $this -> fm = new FormManager();
         $this -> qm = new QuestionManager();
         $this -> um = new UserManager();
+        $this -> mailer = new Mail();
     }
 
     public function list(){
@@ -112,7 +113,16 @@ class FormController extends AbstractController
     }
 
     public function sendFormCLient($data){
-        $body = $_POST["body"];
+        $receiver = $this -> um -> findOne($_SESSION['user_id']) -> getEmail();
+        $subject = "test";
+        $body = "";
+        foreach($data as $item){
+            $body = $body."<p>".$item."</p>";
+        }
+        $this -> mailer -> sendMailFromForm($receiver, $subject, $body);
+
+
+
     }
 
 }

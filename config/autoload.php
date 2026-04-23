@@ -23,4 +23,5 @@ require "controllers/ServiceController.php";
 require "controllers/QuestionController.php";
 require "controllers/MediaController.php";
 
+require "services/Mail.php";
 require "services/Router.php";

@@ -14,8 +14,13 @@
 </head>
 <body>
     <form method="post" action="?route=sendFormClient">
-        <label for="message">Message</label>
-        <input type="text" name="message">
+        <?php $i=1; foreach ($questions as $question) { ?>
+            <label for="question_<?= $i ?>"><?= $i ?> <?= $question -> getContent() ?></label>
+            <br/>
+            <input type="textarea" name="question_<?= $i ?>">
+            <br/>
+            <?php $i++ ?>
+        <?php } ?>
         <input type="submit" value="Envoyer" />
     </form>
 </body>

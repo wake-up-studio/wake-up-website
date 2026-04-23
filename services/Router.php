@@ -182,7 +182,8 @@ class Router{
                 $this -> fc -> formClient($get["form_id"]);
             }
             else if ($get["route"] === "sendFormClient"){
-                $this -> fc -> sendFormClient($_POST);
+                $data = $_POST;
+                $this -> fc -> sendFormClient($data);
             }
             else if ($get["route"] === "projectClient" && isset($get["project_id"])){
                 $this -> pc -> showProjectClient($get["project_id"]);
