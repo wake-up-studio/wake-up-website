@@ -175,7 +175,6 @@ class UserController extends AbstractController
 //CLIENT
 
     public function homeClient(array $data){
-        $user = $this -> um -> findOne($data["user_id"]);
         $this -> renderAdmin("_client/homeClient", $data);
     }
 

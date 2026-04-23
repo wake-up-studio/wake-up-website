@@ -101,6 +101,7 @@ class FormController extends AbstractController
 //AFFICHAGE CLIENT
 
     public function homeFormClient(int $id){
+        $_SESSION['form_id'] = $id;
         $data = ["form" => $this -> fm -> findOne($id)];
         $this -> renderAdmin("_client/formClient/formHomeClient", $data);
     }
@@ -113,16 +114,28 @@ class FormController extends AbstractController
     }
 
     public function sendFormCLient($data){
-        $receiver = $this -> um -> findOne($_SESSION['user_id']) -> getEmail();
-        $subject = "test";
-        $body = "";
-        foreach($data as $item){
-            $body = $body."<p>".$item."</p>";
+        if(!empty($data)){
+            $questions = $this -> qm -> findByFormId($_SESSION['form_id']);
+            $receiver = $this -> um -> findOne($_SESSION['user_id']) -> getEmail();
+            $subject = "Questionnaire rempli : ".$this -> fm -> findOne($_SESSION['form_id']) -> getTitle();
+            $body = "";
+            foreach($data as $item){
+                $body = $body."<h3>".current($questions)->getContent()."</h3>"."<p>".$item."</p>";
+            }
+            $this -> mailer -> sendMailFromForm($receiver, $subject, $body);
+
+            $form = $this -> fm -> findOne($_SESSION['form_id']);
+            $newForm = new Form($form -> getTitle(), $form -> getContent(), null, $form->getCreatedAt(), $form -> getId());
+            $this -> fm -> update($newForm);
+
+            unset($_SESSION['form_id']);
+
+            $this -> redirect("index.php?route=homeClient");
         }
-        $this -> mailer -> sendMailFromForm($receiver, $subject, $body);
-
-
-
+        else{
+            $data = ["form" => $this -> fm -> findOne($_SESSION["form_id"])];
+            $this -> renderAdmin("_client/formClient/formHomeClient", $data);
+        }
     }
 
 }
