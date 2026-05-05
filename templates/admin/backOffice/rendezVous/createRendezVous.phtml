@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Créer utilisateur</title>
+</head>
+<body>
+    <form method="post" action="?route=checkCreateRendezVous">
+        <label for="date">Date</label>
+        <input type="date" name="date"/>
+        <label for="time">Time</label>
+        <input type="time" name="time"/>
+        <label for="motif">Motif</label>
+        <select name="motif">
+            <option value="découverte">Appel de découverte (30 minutes)</option>
+            <option value="suivi">Suivi de projet (60 minutes)</option>
+            <option value="présentation">Présentation de projet (90 minutes)</option>
+        </select>
+        <label for="user_id">User Id</label>
+        <input type="text" name="user_id" />
+        <input type="submit" value="Submit"/>
+    </form>
+</body>
+</html>

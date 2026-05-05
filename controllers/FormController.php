@@ -14,21 +14,21 @@ class FormController extends AbstractController
 
     public function list(){
         $data = $this -> fm -> findAll();
-        $this -> renderAdmin("_admin/form/listForms", $data);
+        $this -> renderAdmin("backOffice/form/listForms", $data);
     }
 
     public function show(int $id){
         $data = ["form" => $this -> fm -> findOne($id)];
-        $this -> renderAdmin("_admin/form/showForm", $data);
+        $this -> renderAdmin("backOffice/form/showForm", $data);
     }
 
     public function update(int $id){
         $form = $this -> fm -> findOne($id);
-        $this -> renderAdmin("_admin/form/updateForm", ["form" => $form]);
+        $this -> renderAdmin("backOffice/form/updateForm", ["form" => $form]);
     }
 
     public function create(){
-        $this -> renderAdmin("_admin/form/createForm", []);
+        $this -> renderAdmin("backOffice/form/createForm", []);
     }
 
 // CHECK AFFICHAGE ADMIN
@@ -57,19 +57,19 @@ class FormController extends AbstractController
                 }
                 else{
                     $data = ["error" => "Oops", "form" => $form];
-                    $this -> renderAdmin("_admin/form/updateForm", $data);
+                    $this -> renderAdmin("backOffice/form/updateForm", $data);
                 }
             }
             else{
                 $form = $this -> fm -> findOne($id);
                 $data = ["form" => $form];
-                $this -> renderAdmin("_admin/form/updateForm", $data);
+                $this -> renderAdmin("backOffice/form/updateForm", $data);
             }
         }
         else{
             $form = $this -> fm -> findOne($id);
             $data = ["form" => $form];
-            $this -> renderAdmin("_admin/form/updateForm", $data);
+            $this -> renderAdmin("backOffice/form/updateForm", $data);
         }
     }
 
@@ -90,11 +90,11 @@ class FormController extends AbstractController
                 $this -> redirect("index.php?route=showForm&form_id=".$form -> getId());
             }
             else{
-                $this -> renderAdmin("_admin/form/createForm", []);
+                $this -> renderAdmin("backOffice/form/createForm", []);
             }
         }
         else{
-            $this -> renderAdmin("_admin/form/createForm",[]);
+            $this -> renderAdmin("backOffice/form/createForm",[]);
         }
     }
 
@@ -103,14 +103,14 @@ class FormController extends AbstractController
     public function homeFormClient(int $id){
         $_SESSION['form_id'] = $id;
         $data = ["form" => $this -> fm -> findOne($id)];
-        $this -> renderAdmin("_client/formClient/formHomeClient", $data);
+        $this -> renderAdmin("client/formClient/formHomeClient", $data);
     }
 
     public function formClient(int $id){
         $data = ["questions" => $this -> qm -> findByFormId($id),
             "form" => $this -> fm -> findOne($id),
         ];
-        $this -> renderAdmin("_client/formClient/formClient", $data);
+        $this -> renderAdmin("client/formClient/formClient", $data);
     }
 
     public function sendFormCLient($data){
@@ -134,7 +134,7 @@ class FormController extends AbstractController
         }
         else{
             $data = ["form" => $this -> fm -> findOne($_SESSION["form_id"])];
-            $this -> renderAdmin("_client/formClient/formHomeClient", $data);
+            $this -> renderAdmin("client/formClient/formHomeClient", $data);
         }
     }
 

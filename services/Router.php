@@ -8,6 +8,8 @@ class Router{
         $this -> fc = new FormController();
         $this -> sc = new ServiceController();
         $this -> qc = new QuestionController();
+        $this -> rc = new RendezVousController();
+        $this -> ac = new AuthController();
     }
 
     public function handleRequest(array $get) : void{
@@ -153,15 +155,41 @@ class Router{
                 $this -> qc -> checkUpdate($get["question_id"]);
             }
 
+            // ROUTER ADMIN Rendez-Vous
+            else if($get["route"] === "listRendezVous"){
+                $this -> rc -> list();
+            }
+            else if($get["route"] === "showRendezVous" && isset($get["rendezVous_id"])){
+                $this -> rc -> show($get["rendezVous_id"]);
+            }
+            else if($get["route"] === "createRendezVous"){
+                $this -> rc -> create();
+            }
+            else if($get["route"] === "checkCreateRendezVous"){
+                $this -> rc -> checkCreate();
+            }
+            else if($get["route"] === "deleteRendezVous" && isset($get["rendezVous_id"])){
+                $this -> rc -> delete($get["rendezVous_id"]);
+            }
+            else if($get["route"] === "updateRendezVous"){
+                $this -> rc -> update($get["rendezVous_id"]);
+            }
+            else if($get["route"] === "checkUpdateRendezVous" && isset($get["rendezVous_id"])){
+                $this -> rc -> checkUpdate($get["rendezVous_id"]);
+            }
+            else if($get["route"] === "agendaAdmin"){
+                $this -> rc -> showAgendaBackOffice();
+            }
+
             //AUTHENTIFICATION
             else if($get["route"] === "authUser"){
-                $this -> uc -> auth();
+                $this -> ac -> auth();
             }
             else if($get["route"] === "checkAuthUser"){
-                $this -> uc -> checkAuth();
+                $this -> ac -> checkAuth();
             }
             else if($get["route"] === "logout"){
-                $this -> uc -> logout();
+                $this -> ac -> logout();
             }
 
             // ROUTER ADMIN CLIENT
@@ -173,7 +201,7 @@ class Router{
                     "forms" => $fm -> findByUserId($_SESSION["user_id"]),
                     "projects" => $pm -> findByUserId($_SESSION["user_id"])
                 ];
-                $this -> uc -> homeClient($data);
+                $this -> ac -> homeClient($data);
             }
             else if ($get["route"] === "formHomeClient" && isset($get["form_id"])){
                 $this -> fc -> homeFormClient($get["form_id"]);
@@ -188,8 +216,16 @@ class Router{
             else if ($get["route"] === "projectClient" && isset($get["project_id"])){
                 $this -> pc -> showProjectClient($get["project_id"]);
             }
-            else if ($get["route"] === "rdvClient" && isset($_SESSION["user_id"])){
-                $this -> uc -> rdvClient();
+            else if ($get["route"] === "agendaClient" && isset($_SESSION["user_id"])){
+                $this -> rc -> showAgendaClient();
+            }
+
+            // FULLCALENDAR FETCH
+            else if ($get["route"] === "giveInfoDate"){
+                $this -> rc -> giveInfoDate();
+            }
+            else if ($get["route"] === "giveInfoTime"){
+                $this -> rc -> giveInfoTime();
             }
 
             // ERREUR
@@ -198,7 +234,7 @@ class Router{
             }
         }
         else{
-            $this -> uc -> auth();
+            $this -> ac -> auth();
         }
     }
 }

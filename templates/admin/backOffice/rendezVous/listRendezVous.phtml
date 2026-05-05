@@ -1,0 +1,30 @@
+<?php
+//var_dump($data);
+?>
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste Rendez-Vous</title>
+</head>
+<body>
+    <h1>Rendez-Vous</h1>
+    <button><a href="?route=createRendezVous">Créer un Rendez-Vous</a></button>
+    <ul>
+        <?php foreach($data as $item){ ?>
+            <?php
+                $um = new UserManager();
+                $user = $um -> findOne($item -> getUserId());
+            ?>
+            <li>
+                <p><?= $item -> getDate() -> format("Y-m-d H:i:s") ?></p>
+                <p><?= $user -> getFirstName() ?> <?= $user -> getLastName() ?></p>
+                <button><a href="?route=showRendezVous&rendezVous_id=<?= $item -> getId() ?>">Plus d'infos</a></button>
+                <button><a href="?route=updateRendezVous&rendezVous_id=<?= $item -> getId() ?>">Modifier</a></button>
+                <button><a href="?route=deleteRendezVous&rendezVous_id=<?= $item -> getId() ?>">Supprimer</a></button>
+            </li>
+        <?php } ?>
+    </ul>
+</body>
+</html>

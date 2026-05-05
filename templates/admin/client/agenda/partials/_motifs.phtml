@@ -1,0 +1,13 @@
+<h2>On se voit pour faire quoi de <?= $time ?> ?</h2>
+<label for="role">Motif</label>
+<select name="motif">
+    <option value="découverte">Appel de découverte (30 minutes)</option>
+    <option value="suivi">Suivi de projet (60 minutes)</option>
+    <option value="présentation">Présentation de projet (90 minutes)</option>
+</select>
+<br>
+<input type="checkbox" id="confirm"/>
+<label for="confirm">Je consens à honorer mon rendez-vous ou de prévenir de son annulation 48h avant. Je consens aussi à respecter le motif renseigné.</label>
+<br>
+<button value="submit" id="submit" hidden>Réserver</button>
+

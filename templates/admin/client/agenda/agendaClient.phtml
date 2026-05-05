@@ -1,0 +1,25 @@
+<?php
+var_dump($_SESSION);
+?>
+
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Agenda Admin</title>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.20/index.global.min.js'></script>
+    <script type="module" src="../../../../assets/js/calendarClient.js"></script>
+</head>
+<body>
+    <h1>Prendre rendez-vous</h1>
+    <button><a href="?route=homeClient">Retour</a></button>
+    <div class="calendarFull"  style="display: grid; grid-template: 1fr 1fr / 1fr 1fr">
+        <div id="calendar" style="width:500px; height:200px; grid-row: span 2"></div>
+        <div class="creneaux"></div>
+        <div class="motifs"></div>
+    </div>
+</body>
+</html>

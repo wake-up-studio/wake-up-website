@@ -13,21 +13,21 @@ class ProjectController extends AbstractController
 
     public function list(){
         $data = $this -> pm -> findAll();
-        $this -> renderAdmin("_admin/project/listProjects", $data);
+        $this -> renderAdmin("backOffice/project/listProjects", $data);
     }
 
     public function show(int $id){
         $data = ["project" => $this -> pm -> findOne($id)];
-        $this -> renderAdmin("_admin/project/showProject", $data);
+        $this -> renderAdmin("backOffice/project/showProject", $data);
     }
 
     public function update(int $id){
         $project = $this -> pm -> findOne($id);
-        $this -> renderAdmin("_admin/project/updateProject", ["project" => $project]);
+        $this -> renderAdmin("backOffice/project/updateProject", ["project" => $project]);
     }
 
     public function create(){
-        $this -> renderAdmin("_admin/project/createProject", []);
+        $this -> renderAdmin("backOffice/project/createProject", []);
     }
 
 //CHECK AFFICHAGE ADMIN
@@ -56,19 +56,19 @@ class ProjectController extends AbstractController
                 }
                 else{
                     $data = ["error" => "Oops", "project" => $project];
-                    $this -> renderAdmin("_admin/project/updateProject", $data);
+                    $this -> renderAdmin("backOffice/project/updateProject", $data);
                 }
             }
             else{
                 $project = $this -> pm -> findOne($id);
                 $data = ["project" => $project];
-                $this -> renderAdmin("_admin/project/updateProject", $data);
+                $this -> renderAdmin("backOffice/project/updateProject", $data);
             }
         }
         else{
             $project = $this -> pm -> findOne($id);
             $data = ["project" => $project];
-            $this -> renderAdmin("_admin/project/updateProject", $data);
+            $this -> renderAdmin("backOffice/project/updateProject", $data);
         }
     }
 
@@ -91,12 +91,12 @@ class ProjectController extends AbstractController
             }
             else{
                 $data = ["error" => "Champs manquants"];
-                $this -> renderAdmin("_admin/project/createProject", []);
+                $this -> renderAdmin("backOffice/project/createProject", []);
             }
         }
         else{
             $data = ["error" => "Champs manquants"];
-            $this -> renderAdmin("_admin/project/createProject",[]);
+            $this -> renderAdmin("backOffice/project/createProject",[]);
         }
     }
 
@@ -104,7 +104,7 @@ class ProjectController extends AbstractController
 
 public function showProjectClient(int $id){
     $data = ["project" => $this -> pm -> findOne($id)];
-    $this -> renderAdmin("_client/projectClient", $data);
+    $this -> renderAdmin("client/projectClient", $data);
 }
 
 }

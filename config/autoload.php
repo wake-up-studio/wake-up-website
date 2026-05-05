@@ -6,6 +6,7 @@ require "models/Project.php";
 require "models/Service.php";
 require "models/Question.php";
 require "models/Media.php";
+require "models/RendezVous.php";
 
 require "managers/AbstractManager.php";
 require "managers/UserManager.php";
@@ -14,6 +15,7 @@ require 'managers/ServiceManager.php';
 require "managers/FormManager.php";
 require "managers/QuestionManager.php";
 require "managers/MediaManager.php";
+require "managers/RendezVousManager.php";
 
 require "controllers/AbstractController.php";
 require "controllers/UserController.php";
@@ -22,6 +24,8 @@ require "controllers/FormController.php";
 require "controllers/ServiceController.php";
 require "controllers/QuestionController.php";
 require "controllers/MediaController.php";
+require "controllers/RendezVousController.php";
+require "controllers/AuthController.php";
 
 require "services/Mail.php";
 require "services/Router.php";
