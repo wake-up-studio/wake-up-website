@@ -2,6 +2,7 @@
     $user_id = $data["user_id"];
     $forms = $data["forms"];
     $projects = $data["projects"];
+    $user = $data["user"];
 ?>
 
 <!doctype html>
@@ -14,7 +15,7 @@
     <title>Accueil Client</title>
 </head>
 <body>
-    <h1>Bienvenue chez vous..!</h1>
+    <h1>Bienvenue chez vous <?= $user -> getFirstName() ?>..!</h1>
     <?php if($forms != null) { ?>
         <?php foreach ($forms as $form) { ?>
             <p>Le questionnaire "<?= $form -> getTitle() ?>" n'attends que vous..!</p>

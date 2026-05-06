@@ -1,32 +1,88 @@
-function getConfirmation(event, ){
-    let buttonSubmit = document.querySelector("#submit");
+class RDVManager{
+    date;
+    time;
+    motif;
 
-    if(event.target.checked){
-        buttonSubmit.removeAttribute("hidden");
+    constructor(date) {
+        this.date = date;
     }
-    else{
-        buttonSubmit.setAttribute("hidden", true);
-    }
-}
 
-function getTime(event) {
-    let time = event.target.innerHTML;
-    let formData = new FormData();
-    formData.append('time', time);
+    createRendezVousClient(){
+        let selectMotif = document.querySelector("#selectMotif");
+        this.motif = selectMotif.value;
 
-    fetch("index.php?route=giveInfoTime", {
-        method: 'POST',
-        body: formData,
-    })
-        .then(response => response.text())
-        .then(data => {
-            document.querySelector(".motifs").innerHTML = data
+        let formFull = new FormData();
+        formFull.append("date", this.date);
+        formFull.append("time", this.time);
+        formFull.append("motif", this.motif);
 
-            let check = document.querySelector("#confirm");
-            console.log(check);
-            check.addEventListener("change", getConfirmation)
+        fetch("index.php?route=checkCreateRendezVousClient", {
+            method: 'POST',
+            body: formFull,
         })
-        .catch(err => console.error(err))
+            .then(response => response.text())
+            .then(data => {
+                window.location.assign("index.php?route=homeClient");
+            })
+            .catch(err => {
+                console.error(err);
+                window.location.assign("index.php?route=authUser");
+            })
+    }
+
+    getConfirmation(event){
+        let buttonSubmit = document.querySelector("#submit");
+
+        if(event.target.checked){
+            buttonSubmit.removeAttribute("hidden");
+            buttonSubmit.addEventListener("click", () => {this.createRendezVousClient()});
+        }
+        else{
+            buttonSubmit.setAttribute("hidden", true);
+        }
+    }
+
+    renderMotifPicker(htmlContent){
+        document.querySelector(".motifs").innerHTML = htmlContent;
+
+        let check = document.querySelector("#confirm");
+        check.addEventListener("change", (event) => {this.getConfirmation(event)});
+    }
+
+    getInfoTime(event) {
+        this.time = event.target.value;
+
+        fetch(`index.php?route=giveInfoTime&time=${this.time}`, {
+            method: 'GET',
+        })
+            .then(response => response.text())
+            .then(data => {
+                this.renderMotifPicker(data);
+            })
+            .catch(err => console.error(err))
+    }
+
+    renderTimePicker(htmlContent){
+        document.querySelector(".creneaux").innerHTML = htmlContent;
+
+        let buttons = document.querySelectorAll(".timeButton");
+        for(let timeButton of buttons){
+            timeButton.addEventListener("click", (event)=> {
+                this.getInfoTime(event)}); //appel d'une fonction anonyme qui appelle getInfoTime pour ne pas tomber dans les backrooms du code
+        }
+    }
+
+    getInfoDate() {
+        // console.log(this);
+        fetch(`index.php?route=giveInfoDate&date=${this.date}`, {
+            method: 'GET',
+        })
+            .then(response => response.text())
+            .then(data => {
+                this.renderTimePicker(data);
+            })
+            .catch(err => console.error(err))
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -40,25 +96,32 @@ document.addEventListener('DOMContentLoaded', function() {
         selectable: true,
         firstDay: 1,
 
-        dateClick: function(info) {
-            let formData = new FormData();
-            formData.append('date', info.dateStr);
-
-            fetch("index.php?route=giveInfoDate", {
-                method: 'POST',
-                body: formData,
-            })
-                .then(response => response.text())
-                .then(data => {
-                    document.querySelector(".creneaux").innerHTML = data
-
-                    let buttons = document.querySelectorAll(".timeButton");
-                    for(let timeButton of buttons){
-                        timeButton.addEventListener("click", getTime)
-                    }
-                })
-                .catch(err => console.error(err))
+        dateClick: function(info){
+            let rdvManager = new RDVManager(info.dateStr);
+            rdvManager.getInfoDate();
         }
+
+        // dateClick: function(info) {
+        //     let formDate = new FormData();
+        //     formDate.append('date', info.dateStr);
+        //
+        //     rdvManager.date = info.dateStr;
+        //
+        //     fetch("index.php?route=giveInfoDate", {
+        //         method: 'POST',
+        //         body: formDate,
+        //     })
+        //         .then(response => response.text())
+        //         .then(data => {
+        //             document.querySelector(".creneaux").innerHTML = data
+        //
+        //             let buttons = document.querySelectorAll(".timeButton");
+        //             for(let timeButton of buttons){
+        //                 timeButton.addEventListener("click", getTime)
+        //             }
+        //         })
+        //         .catch(err => console.error(err))
+        // }
     });
 
     calendar.render();

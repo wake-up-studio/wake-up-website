@@ -18,7 +18,7 @@ class Router{
 
         if(isset($get["route"])){
             // ROUTER ADMIN USERS
-            if($get["route"] === "listUsers"){
+            if($get["route"] === "listUsers" && isset($_SESSION["user_id"])){
                 $this -> uc -> list();
             }
             else if($get["route"] === "showUser" && isset($get["user_id"])){
@@ -155,7 +155,7 @@ class Router{
                 $this -> qc -> checkUpdate($get["question_id"]);
             }
 
-            // ROUTER ADMIN Rendez-Vous
+            // ROUTER ADMIN RENDEZ-VOUS
             else if($get["route"] === "listRendezVous"){
                 $this -> rc -> list();
             }
@@ -193,27 +193,20 @@ class Router{
             }
 
             // ROUTER ADMIN CLIENT
-            else if($get["route"] === "homeClient" && isset($_SESSION["user_id"])){
-                $fm = new FormManager();
-                $pm = new ProjectManager();
-                $data = [
-                    "user_id" => $_SESSION["user_id"],
-                    "forms" => $fm -> findByUserId($_SESSION["user_id"]),
-                    "projects" => $pm -> findByUserId($_SESSION["user_id"])
-                ];
-                $this -> ac -> homeClient($data);
+            else if($get["route"] === "homeClient" && isset($_SESSION["user_id"]) && isset($_SESSION["user_id"])){
+                $this -> ac -> homeClient();
             }
-            else if ($get["route"] === "formHomeClient" && isset($get["form_id"])){
+            else if ($get["route"] === "formHomeClient" && isset($get["form_id"]) && isset($_SESSION["user_id"])){
                 $this -> fc -> homeFormClient($get["form_id"]);
             }
-            else if ($get["route"] === "formClient" && isset($get["form_id"])){
+            else if ($get["route"] === "formClient" && isset($get["form_id"]) && isset($_SESSION["user_id"])){
                 $this -> fc -> formClient($get["form_id"]);
             }
-            else if ($get["route"] === "sendFormClient"){
+            else if ($get["route"] === "sendFormClient" && isset($_SESSION["user_id"])){
                 $data = $_POST;
                 $this -> fc -> sendFormClient($data);
             }
-            else if ($get["route"] === "projectClient" && isset($get["project_id"])){
+            else if ($get["route"] === "projectClient" && isset($get["project_id"]) && isset($_SESSION["user_id"])){
                 $this -> pc -> showProjectClient($get["project_id"]);
             }
             else if ($get["route"] === "agendaClient" && isset($_SESSION["user_id"])){
@@ -221,13 +214,16 @@ class Router{
             }
 
             // FULLCALENDAR FETCH
-            else if ($get["route"] === "giveInfoDate"){
+            else if ($get["route"] === "giveInfoDate" && isset($_GET["date"])){
                 $this -> rc -> giveInfoDate();
             }
-            else if ($get["route"] === "giveInfoTime"){
+            else if ($get["route"] === "giveInfoTime" && isset($_GET["time"]) && isset($_SESSION["user_id"])){
                 $this -> rc -> giveInfoTime();
             }
-
+            else if ($get["route"] === "checkCreateRendezVousClient" && isset($_SESSION["user_id"])){
+                $data = $_POST;
+                $this -> rc -> checkCreateRendezVousClient($data);
+            }
             // ERREUR
             else{
                 echo "Wow, chui où ?";

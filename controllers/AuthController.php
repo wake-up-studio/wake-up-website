@@ -5,6 +5,8 @@ class AuthController extends AbstractController
     public function __construct()
     {
         $this -> um = new UserManager();
+        $this -> fm = new FormManager();
+        $this -> pm = new ProjectManager();
     }
 //AUTHENTIFICATION
 
@@ -56,7 +58,13 @@ class AuthController extends AbstractController
 
 //CLIENT
 
-    public function homeClient(array $data){
+    public function homeClient(){
+        $data = [
+            "user_id" => $_SESSION["user_id"],
+            "forms" => $this -> fm -> findByUserId($_SESSION["user_id"]),
+            "projects" => $this -> pm -> findByUserId($_SESSION["user_id"]),
+            "user" => $this -> um -> findOne($_SESSION["user_id"])
+        ];
         $this -> renderAdmin("client/homeClient", $data);
     }
 }

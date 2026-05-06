@@ -98,16 +98,39 @@ class RendezVousController extends AbstractController
 // LOGIQUE JS CLIENT
 
     public function giveInfoDate(){
-        if(isset($_POST) && isset($_POST["date"])){
-            $date = $_POST["date"];
+        if(isset($_GET) && isset($_GET["date"])){
+            $date = $_GET["date"];
             require("templates/admin/client/agenda/partials/_creneaux.phtml");
         }
     }
 
     public function giveInfoTime(){
-        if(isset($_POST) && isset($_POST["time"])){
-            $time = $_POST["time"];
+        if(isset($_GET) && isset($_GET["time"])){
+            $time = $_GET["time"];
             require("templates/admin/client/agenda/partials/_motifs.phtml");
+        }
+    }
+
+    public function checkCreateRendezVousClient($data){
+        if(isset($data["date"],$data["motif"], $data["time"], $_SESSION["user_id"])) {
+            $date = $data["date"]." ".$data["time"];
+            $motif = $data["motif"];
+            $user_id = $_SESSION["user_id"];
+
+            if(!empty(trim($date)) && !empty(trim($motif)) && !empty(trim($user_id))){
+                $rendezVous = new RendezVous(DateTime::createFromFormat('Y-m-d H:i:s', $date), $motif, $user_id);
+                $this -> rm -> create($rendezVous);
+                unset($_SESSION["error"]);
+                $this -> redirect("index.php?route=homeClient");
+            }
+            else{
+                $_SESSION["error"] = "Champs vides";
+                $this -> renderAdmin("client/agenda/agendaClient", []);
+            }
+        }
+        else{
+            $_SESSION["error"] = "POST ne passe pas";
+            $this -> renderAdmin("client/agenda/agendaClient", []);
         }
     }
 }
