@@ -1,5 +1,7 @@
 <?php
     $item = $data["rendezVous"];
+    $um = new UserManager();
+    $user = $um -> findOne($item -> getUserId());
 ?>
 
 <!doctype html>
@@ -12,7 +14,8 @@
     <title><?= $item -> getDate() -> format("Y-m-d H:i:s") ?></title>
 </head>
 <body>
-    <h1><?= $item -> getDate() -> format("Y-m-d H:i:s") ?></h1>
+    <h1><?= $item -> getDate() -> format("Y-m-d") ?></h1>
+    <h2><?= $item -> getStartingTime() -> format("H:i:s") ?> - <?= $item -> getEndingTime() -> format("H:i:s") ?></h2>
     <h2><?= $item -> getMotif() ?></h2>
     <p><?= $user -> getFirstName() ?> <?= $user -> getLastName() ?></p>
     <p><?= $user -> getEmail() ?></p>

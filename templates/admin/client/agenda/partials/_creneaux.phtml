@@ -1,7 +1,14 @@
-<h2>Créneaux disponibles pour le <?= $date ?></h2>
+<?php
+//var_dump($creneaux);
+?>
+
+<?php if(isset($message)) { ?>
+    <h2><?= $message ?></h2>
+<?php } else { ?>
+    <h2>Créneaux disponibles pour le <?= $date ?></h2>
+<?php } ?>
 <ul>
-    <li><button class="timeButton" value="9:30:00">9:30 - 10:30</button></li>
-    <li><button class="timeButton" value="10:30:00">10:30 - 12:30</button></li>
-    <li><button class="timeButton" value="14:30:00">14:30 - 15:30</button></li>
-    <li><button class="timeButton" value="15:30:00">15:30 - 17:30</button></li>
+    <?php foreach($creneaux as $key => $creneau){ ?>
+        <li><button class="timeButton" value="<?= $key ?>"><?= $creneau ?></button></li>
+    <?php } ?>
 </ul>

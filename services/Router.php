@@ -215,15 +215,16 @@ class Router{
 
             // FULLCALENDAR FETCH
             else if ($get["route"] === "giveInfoDate" && isset($_GET["date"])){
-                $this -> rc -> giveInfoDate();
+                $this -> rc -> renderDate();
             }
             else if ($get["route"] === "giveInfoTime" && isset($_GET["time"]) && isset($_SESSION["user_id"])){
-                $this -> rc -> giveInfoTime();
+                $this -> rc -> renderTime();
             }
             else if ($get["route"] === "checkCreateRendezVousClient" && isset($_SESSION["user_id"])){
                 $data = $_POST;
                 $this -> rc -> checkCreateRendezVousClient($data);
             }
+
             // ERREUR
             else{
                 echo "Wow, chui où ?";

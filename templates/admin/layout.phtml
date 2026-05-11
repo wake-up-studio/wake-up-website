@@ -28,7 +28,10 @@
         </ul>
     </nav>
 <?php } ?>
-
+<?php if(isset($_SESSION["flash_message"])){ ?>
+    <h5><?= $_SESSION["flash_message"] ?></h5>
+    <?php unset($_SESSION["flash_message"]) ?>
+<?php } ?>
     <?php
         require "templates/admin/$template.phtml"
     ?>

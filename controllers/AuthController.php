@@ -7,6 +7,7 @@ class AuthController extends AbstractController
         $this -> um = new UserManager();
         $this -> fm = new FormManager();
         $this -> pm = new ProjectManager();
+        $this -> rm = new RendezVousManager();
     }
 //AUTHENTIFICATION
 
@@ -30,7 +31,7 @@ class AuthController extends AbstractController
                         $_SESSION["role"] = $user -> getRole();
 
                         if($_SESSION["role"] == "admin"){
-                            $this->renderAdmin("backOffice/rendezVous/agendaAdmin", $this->um->findAll());
+                            $this->renderAdmin("backOffice/rendezVous/agendaAdmin", $this->rm->findAll());
                         }
                         else{
                             $this -> redirect("index.php?route=homeClient");

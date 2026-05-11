@@ -22,6 +22,7 @@ class RDVManager{
         })
             .then(response => response.text())
             .then(data => {
+                // data;
                 window.location.assign("index.php?route=homeClient");
             })
             .catch(err => {
@@ -88,43 +89,24 @@ class RDVManager{
 document.addEventListener('DOMContentLoaded', function() {
 
     var calendarEl = document.getElementById('calendar');
+    let dataEvents = calendarEl.dataset.events;
+    console.log(dataEvents);
 
     var calendar = new FullCalendar.Calendar(calendarEl, {
+        events: dataEvents,
         locale: "fr",
         initialView: 'dayGridMonth',
-        fixedWeekCount: false,
         selectable: true,
-        firstDay: 1,
+        hiddenDays: [0, 6],
+        formatDate: "UTC",
 
         dateClick: function(info){
             let rdvManager = new RDVManager(info.dateStr);
             rdvManager.getInfoDate();
         }
 
-        // dateClick: function(info) {
-        //     let formDate = new FormData();
-        //     formDate.append('date', info.dateStr);
-        //
-        //     rdvManager.date = info.dateStr;
-        //
-        //     fetch("index.php?route=giveInfoDate", {
-        //         method: 'POST',
-        //         body: formDate,
-        //     })
-        //         .then(response => response.text())
-        //         .then(data => {
-        //             document.querySelector(".creneaux").innerHTML = data
-        //
-        //             let buttons = document.querySelectorAll(".timeButton");
-        //             for(let timeButton of buttons){
-        //                 timeButton.addEventListener("click", getTime)
-        //             }
-        //         })
-        //         .catch(err => console.error(err))
-        // }
     });
 
     calendar.render();
-
 
 });

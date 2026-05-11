@@ -2,7 +2,8 @@
 
 class RendezVous
 {
-    public function __construct(private DateTime $date = new DateTime(), private string $motif, private int $user_id, private ?int $id = null)
+    public function __construct(private DateTime $date = new DateTime(), private DateTime $starting_time = new DateTime(), private DateTime $ending_time = new DateTime(),
+                                private string $motif, private int $user_id, private ?int $id = null)
     {
 
     }
@@ -16,6 +17,27 @@ class RendezVous
     {
         $this->date = $date;
     }
+
+    public function getStartingTime(): DateTime
+    {
+        return $this->starting_time;
+    }
+
+    public function setStartingTime(DateTime $starting_time): void
+    {
+        $this->starting_time = $starting_time;
+    }
+
+    public function getEndingTime(): DateTime
+    {
+        return $this->ending_time;
+    }
+
+    public function setEndingTime(DateTime $ending_time): void
+    {
+        $this->ending_time = $ending_time;
+    }
+
 
     public function getMotif(): string
     {

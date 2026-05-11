@@ -18,7 +18,7 @@
                 $user = $um -> findOne($item -> getUserId());
             ?>
             <li>
-                <p><?= $item -> getDate() -> format("Y-m-d H:i:s") ?></p>
+                <p><?= $item -> getDate() -> format("Y-m-d") ?> </p>
                 <p><?= $user -> getFirstName() ?> <?= $user -> getLastName() ?></p>
                 <button><a href="?route=showRendezVous&rendezVous_id=<?= $item -> getId() ?>">Plus d'infos</a></button>
                 <button><a href="?route=updateRendezVous&rendezVous_id=<?= $item -> getId() ?>">Modifier</a></button>

@@ -17,7 +17,8 @@ class RendezVousManager extends AbstractManager
         $results = $query -> fetchAll(PDO::FETCH_ASSOC);
         $rendezVous = [];
         foreach($results as $result){
-            $rendezVous[] = new RendezVous(DateTime::createFromFormat("Y-m-d H:i:s", $result["date"] ), $result["motif"], $result["user_id"] , $result["id"]);
+            $rendezVous[] = new RendezVous(DateTime::createFromFormat("Y-m-d", $result["date"] ), DateTime::createFromFormat("H:i:s", $result["starting_time"] ),
+                DateTime::createFromFormat("H:i:s", $result["ending_time"]),$result["motif"], $result["user_id"] , $result["id"]);
         }
         return $rendezVous;
     }
@@ -32,11 +33,45 @@ class RendezVousManager extends AbstractManager
         $query -> execute($parameters);
         $result = $query -> fetch(PDO::FETCH_ASSOC);
         if($result){
-            $rendezVous = new RendezVous(DateTime::createFromFormat("Y-m-d H:i:s", $result["date"] ), $result["motif"], $result["user_id"] , $result["id"]);
+            $rendezVous = new RendezVous(DateTime::createFromFormat("Y-m-d", $result["date"] ), DateTime::createFromFormat("H:i:s", $result["starting_time"] ),
+                DateTime::createFromFormat("H:i:s", $result["ending_time"] ),$result["motif"], $result["user_id"] , $result["id"]);
             return $rendezVous;
         }
         return null;
     }
+
+    public function findByDate(string $date) : array{
+        $query = $this -> db -> prepare("
+            SELECT *
+            FROM rendez_vous
+            WHERE date = :date
+        ");
+        $parameters = ["date" => $date];
+        $query -> execute($parameters);
+        $results = $query -> fetchAll(PDO::FETCH_ASSOC);
+        $rendezVous = [];
+        foreach($results as $result){
+            $rendezVous[] = new RendezVous(DateTime::createFromFormat("Y-m-d", $result["date"] ), DateTime::createFromFormat("H:i:s", $result["starting_time"] ),
+                DateTime::createFromFormat("H:i:s", $result["ending_time"] ),$result["motif"], $result["user_id"] , $result["id"]);
+        }
+        return $rendezVous;
+    }
+
+//    public function findByTime(string $time) : array{
+//        $query = $this -> db -> prepare("
+//            SELECT *
+//            FROM rendez_vous
+//            WHERE time = :time
+//        ");
+//        $parameters = ["time" => $time];
+//        $query -> execute($parameters);
+//        $results = $query -> fetchAll(PDO::FETCH_ASSOC);
+//        $rendezVous = [];
+//        foreach($results as $result){
+//            $rendezVous[] = new RendezVous(DateTime::createFromFormat("Y-m-d", $result["date"] ), DateTime::createFromFormat("H:i:s", $result["time"] ), $result["motif"], $result["user_id"] , $result["id"]);
+//        }
+//        return $rendezVous;
+//    }
 
     public function delete(int $id){
         $query = $this -> db -> prepare("
@@ -49,10 +84,12 @@ class RendezVousManager extends AbstractManager
 
     public function create(RendezVous $rendezVous){
         $query = $this -> db -> prepare("
-        INSERT INTO rendez_vous(date, motif, user_id)
-        VALUES(:date, :motif, :user_id)
+        INSERT INTO rendez_vous(date, starting_time, ending_time, motif, user_id)
+        VALUES(:date, :starting_time, :ending_time, :motif, :user_id)
         ");
-        $parameters = ["date" => $rendezVous->getDate()-> format("Y-m-d H:i:s"),
+        $parameters = ["date" => $rendezVous->getDate()-> format("Y-m-d"),
+            "starting_time" => $rendezVous->getStartingTime()-> format("H:i:s"),
+            "ending_time" => $rendezVous -> getEndingTime()-> format("H:i:s"),
             "motif" => $rendezVous->getMotif(),
             "user_id" => $rendezVous->getUserId()];
         $query -> execute($parameters);
@@ -65,13 +102,16 @@ class RendezVousManager extends AbstractManager
         $query = $this -> db -> prepare("
         UPDATE rendez_vous
         SET date = :date,
+        starting_time = :starting_time,
+        ending_time = :ending_time,
         motif = :motif,
         user_id = :user_id
         WHERE id = :id");
-        $parameters = ["date" => $rendezVous->getDate() -> format("Y-m-d H:i:s"),
+        $parameters = ["date" => $rendezVous->getDate()-> format("Y-m-d"),
+            "starting_time" => $rendezVous->getStartingTime()-> format("H:i:s"),
+            "ending_time" => $rendezVous -> getEndingTime()-> format("H:i:s"),
             "motif" => $rendezVous->getMotif(),
-            "user_id" => $rendezVous->getUserId(),
-            "id" => $rendezVous->getId()];
+            "user_id" => $rendezVous->getUserId()];
         $query -> execute($parameters);
     }
 

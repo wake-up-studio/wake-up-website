@@ -5,14 +5,22 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Créer utilisateur</title>
+    <title>Créer Rendez-Vous</title>
 </head>
 <body>
+<?php if(isset($_SESSION["error"])) { ?>
+    <p><?= $_SESSION["error"] ?></p>
+<?php } ?>
     <form method="post" action="?route=checkCreateRendezVous">
         <label for="date">Date</label>
         <input type="date" name="date"/>
         <label for="time">Time</label>
-        <input type="time" name="time"/>
+        <select name="time">
+            <option value="9:30:00">9:30</option>
+            <option value="11:00:00">11:00</option>
+            <option value="14:30:00">14:30</option>
+            <option value="16:00:00">16:00</option>
+        </select>
         <label for="motif">Motif</label>
         <select name="motif">
             <option value="découverte">Appel de découverte (30 minutes)</option>
